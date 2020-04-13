@@ -8,6 +8,13 @@ module.exports = {
         name: 'markdown-pages',
       },
     },
+    {
+      resolve: `gatsby-source-filesystem`,
+      options: {
+        path: `${__dirname}/release-notes-agents`,
+        name: 'markdown-pages',
+      },
+    },
     `gatsby-transformer-remark`,
   ],
 }
