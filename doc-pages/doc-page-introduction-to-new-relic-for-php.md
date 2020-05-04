@@ -145,5 +145,3 @@ product-categories: APM
 	<li><a href="/docs/agents/php-agent/troubleshooting/ini-settings-not-taking-effect-immediately">INI settings not taking effect immediately</a></li>
 	<li><a href="/docs/agents/php-agent/troubleshooting/why-when-restart-your-web-server-php">Why and when to restart your web server (PHP)</a></li>
 </ul>
-
-<h2 id="more_help">For more help</h2>
