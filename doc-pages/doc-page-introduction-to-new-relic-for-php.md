@@ -1,5 +1,5 @@
 ---
-path: agents/php-agent/getting-started/introduction-new-relic-php
+path: /agents/php-agent/getting-started/introduction-new-relic-php
 title: Introduction to New Relic for PHP
 product-categories: APM
 ---
