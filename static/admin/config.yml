@@ -31,3 +31,16 @@ collections:
       - { name: body, label: Body, widget: markdown }
       - { name: "download-url", label: "Download URL", widget: "string", pattern: ["https?:\\/\\/(www\\.)?[-a-zA-Z0-9@:%._\\+~#=]{1,256}\\.[a-zA-Z0-9()]{1,6}\\b([-a-zA-Z0-9()@:%_\\+.~#?&//=]*)", "Must be valid URL syntax beginning with http/https and ending with .com"]}
       - { name: product-categories, label: Product Categories, widget: select, multiple: true, options: ["APM", "Browser", "Infrastructure", "Mobile"] }
+  
+  - name: doc-page
+    label: Doc Page
+    label_singular: Doc Page
+    description: "Standard doc page"
+    folder: doc-pages
+    create: true
+    slug: "doc-page/{{slug}}"
+    fields:
+      - { name: path, label: Path }
+      - { name: title, label: Title }
+      - { name: body, label: Body, widget: markdown }
+      - { name: product-categories, label: Product Categories, widget: select, multiple: true, options: ["APM", "Browser", "Infrastructure", "Mobile"] }
