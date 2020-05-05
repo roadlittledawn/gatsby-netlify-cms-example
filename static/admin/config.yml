@@ -1,46 +1,36 @@
 backend:
   name: github
-  repo: roadlittledawn/gatsby-netlify-cms-example
-
-media_folder: static/assets
+  branch: liz/cms-poc
+  repo: newrelic/developer-website
+  site_domain: cms.netlify.com
+  base_url: https://api.netlify.com
+  commit_messages:
+    create: 'Create {{collection}} “{{slug}}”'
+    update: 'Update {{collection}} “{{slug}}”'
+    delete: 'Delete {{collection}} “{{slug}}”'
+    uploadMedia: '[skip ci] Upload “{{path}}”'
+    deleteMedia: '[skip ci] Delete “{{path}}”'
 
 publish_mode: editorial_workflow
+media_folder: src/images
+public_folder: /img
 
 collections:
-  - name: blog
-    label: Blog
-    folder: blog
+  - name: 'guide'
+    label: 'Guide'
+    folder: 'src/markdown-pages'
     create: true
+    slug: '{{slug}}'
+    path: '{{folder}}/{{slug}}'
     fields:
-      - { name: path, label: Path }
-      - { name: date, label: Date, widget: date }
-      - { name: title, label: Title }
-      - { name: body, label: Body, widget: markdown }
-  
-  - name: release-notes
-    label: Release Notes
-    label_singular: Release Note
-    description: "Release notes for all downloaded New Relic software."
-    folder: release-notes-agents
-    create: true
-    slug: "release-notes-agent/{{slug}}"
-    fields:
-      - { name: path, label: Path }
-      - { name: date, label: Date, widget: date }
-      - { name: title, label: Title }
-      - { name: body, label: Body, widget: markdown }
-      - { name: "download-url", label: "Download URL", widget: "string", pattern: ["https?:\\/\\/(www\\.)?[-a-zA-Z0-9@:%._\\+~#=]{1,256}\\.[a-zA-Z0-9()]{1,6}\\b([-a-zA-Z0-9()@:%_\\+.~#?&//=]*)", "Must be valid URL syntax beginning with http/https and ending with .com"]}
-      - { name: product-categories, label: Product Categories, widget: select, multiple: true, options: ["APM", "Browser", "Infrastructure", "Mobile"] }
-  
-  - name: doc-page
-    label: Doc Page
-    label_singular: Doc Page
-    description: "Standard doc page"
-    folder: doc-pages
-    create: true
-    slug: "doc-page/{{slug}}"
-    fields:
-      - { name: path, label: Path }
-      - { name: title, label: Title }
-      - { name: body, label: Body, widget: markdown }
-      - { name: product-categories, label: Product Categories, widget: select, multiple: true, options: ["APM", "Browser", "Infrastructure", "Mobile"] }
+      - {
+          label: 'Template Key',
+          name: 'templateKey',
+          widget: 'hidden',
+          default: 'GuideTemplate',
+        }
+      - { label: 'Title', name: 'title', widget: 'string' }
+      - { label: 'Duration', name: 'duration', widget: 'string' }
+      - { label: 'Folder', name: 'folder', widget: 'string' }
+      - { label: 'Path', name: 'path', widget: 'string' }
+      - { label: 'Body', name: 'body', widget: 'markdown' }
