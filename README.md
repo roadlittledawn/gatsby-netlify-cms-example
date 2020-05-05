@@ -1,11 +1,15 @@
-# gatsby-netlify-cms-example
-Starter with the bare essentials needed for a [Gatsby](https://www.gatsbyjs.org/) site with [Netlify
-CMS](https://netlifycms.org).
+# developer.newrelic.com
 
-Install this starter (assuming Gatsby is installed) by running from your CLI:
-```
-gatsby new gatsby-site https://github.com/erquhart/gatsby-netlify-cms-example
-```
+## 🚀 Quick start
 
-## Running in development
-`gatsby develop`
+1. **Start developing.**
+
+    Navigate into your new site’s directory and start it up.
+
+    ```shell
+    cd developer-website/
+    npm install
+    npm start
+    ```
+
+    Your site is now running at `http://localhost:8000`!
