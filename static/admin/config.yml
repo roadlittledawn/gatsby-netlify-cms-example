@@ -1,9 +1,7 @@
 backend:
   name: github
-  branch: liz/cms-poc
-  repo: newrelic/developer-website
-  site_domain: cms.netlify.com
-  base_url: https://api.netlify.com
+  branch: master
+  repo: roadlittledawn/gatsby-netlify-cms-example
   commit_messages:
     create: 'Create {{collection}} “{{slug}}”'
     update: 'Update {{collection}} “{{slug}}”'
