@@ -32,24 +32,6 @@ collections:
       - { label: 'Folder', name: 'folder', widget: 'string' }
       - { label: 'Path', name: 'path', widget: 'string' }
       - { label: 'Body', name: 'body', widget: 'markdown' }
-  - name: 'guide'
-    label: 'Guide'
-    folder: 'src/markdown-pages'
-    create: true
-    slug: '{{slug}}'
-    path: '{{folder}}/{{slug}}'
-    fields:
-      - {
-          label: 'Template Key',
-          name: 'templateKey',
-          widget: 'hidden',
-          default: 'GuideTemplate',
-        }
-      - { label: 'Title', name: 'title', widget: 'string' }
-      - { label: 'Duration', name: 'duration', widget: 'string' }
-      - { label: 'Folder', name: 'folder', widget: 'string' }
-      - { label: 'Path', name: 'path', widget: 'string' }
-      - { label: 'Body', name: 'body', widget: 'markdown' }
 
   - name: 'doc-page'
     label: 'Doc Page'
@@ -62,9 +44,10 @@ collections:
          label: 'Template Key',
          name: 'templateKey',
          widget: 'hidden',
-         default: 'GuideTemplate',
+         default: 'DocPageTemplate',
        }
      - { label: 'Title', name: 'title', widget: 'string' }
      - { label: 'Folder', name: 'folder', widget: 'string' }
      - { label: 'Path', name: 'path', widget: 'string' }
+     - { label: 'Topic', name: 'topic', widgt:  }
      - { label: 'Body', name: 'body', widget: 'markdown' }
