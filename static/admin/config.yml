@@ -1,6 +1,6 @@
 backend:
   name: github
-  branch: master
+  branch: add-docs-collections
   repo: roadlittledawn/gatsby-netlify-cms-example
   commit_messages:
     create: 'Create {{collection}} “{{slug}}”'
