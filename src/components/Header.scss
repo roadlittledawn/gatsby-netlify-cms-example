@@ -1,0 +1,142 @@
+header.Header--main {
+  background-color: #d7e6e8;
+
+  .u-container {
+    display: grid;
+    grid-template-areas: 'nr tools' 'title title' 'main main';
+
+    @media (max-width: 760px) {
+      grid-template-columns: 1fr 3rem;
+      grid-template-areas: 'title menu' 'nr nr' 'main main' 'tools tools';
+    }
+  }
+
+  .Header-title {
+    grid-area: title;
+    font-size: 1.8rem;
+    margin: 0;
+
+    a {
+      padding-left: 0;
+
+      &:hover {
+        text-decoration: none;
+      }
+    }
+
+    @media (max-width: 760px) {
+      a {
+        padding-left: 1rem;
+      }
+    }
+  }
+
+  .HamburgerMenu {
+    display: none;
+    grid-area: menu;
+    align-items: end;
+
+    @media (max-width: 760px) {
+      display: block;
+    }
+  }
+
+  .Header-nav--nr {
+    grid-area: nr;
+  }
+
+  .Header-nav--tools {
+    grid-area: tools;
+
+    ul {
+      justify-content: flex-end;
+    }
+  }
+
+  .Header-nav--main {
+    grid-area: main;
+
+    ul {
+      justify-content: flex-end;
+    }
+  }
+
+  a {
+    color: #000;
+    text-decoration: none;
+    padding: 0.6rem;
+    display: inline-block;
+    display: flex;
+
+    &:hover {
+      cursor: pointer;
+      text-decoration: underline;
+    }
+  }
+
+  h3 {
+    margin: 0;
+    padding: 1rem 0.6rem 0;
+  }
+
+  ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: flex;
+
+    li:first-child > a {
+      padding-left: 0;
+    }
+
+    li:last-child > a {
+      padding-right: 0;
+    }
+
+    @media (max-width: 760px) {
+      display: block;
+
+      li:first-child > a,
+      li:last-child > a {
+        padding: 0.6rem;
+      }
+    }
+  }
+
+  img {
+    height: 1.2rem;
+    vertical-align: middle;
+    padding-bottom: 0.1rem;
+
+    @media (max-width: 760px) {
+      margin-right: 0.5rem;
+    }
+  }
+
+  nav {
+    @media (max-width: 760px) {
+      display: none;
+    }
+  }
+
+  &.is-open nav {
+    @media (max-width: 760px) {
+      background-color: var(--color-white);
+      display: block;
+    }
+  }
+
+  .u-hideOnDesktop {
+    display: none;
+
+    @media (max-width: 760px) {
+      display: block;
+    }
+  }
+
+  .u-hideOnMobile {
+    @media (max-width: 760px) {
+      display: none;
+    }
+  }
+}
