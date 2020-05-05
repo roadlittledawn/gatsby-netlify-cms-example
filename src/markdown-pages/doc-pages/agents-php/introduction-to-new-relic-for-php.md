@@ -1,8 +1,8 @@
 ---
-templateKey: GuideTemplate
+templateKey: DocPageTemplate
 title: Introduction to New Relic for PHP
 folder: agents-php
-path: agents/php-agent/getting-started/introduction-new-relic-php
+path: /agents/php-agent/getting-started/introduction-new-relic-php
 ---
 <p>The New Relic PHP agent monitors your application to help you <a href="#monitor-performance">identify and solve performance issues</a>. You can also extend the agent's performance monitoring to <a href="#business-data">collect and analyze business data</a> to help you improve the customer experience and make data-driven business decisions.</p>
 
