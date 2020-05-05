@@ -1,6 +1,6 @@
 backend:
   name: github
-  branch: master
+  branch: add-docs-collections
   repo: roadlittledawn/gatsby-netlify-cms-example
   commit_messages:
     create: 'Create {{collection}} “{{slug}}”'
@@ -32,3 +32,28 @@ collections:
       - { label: 'Folder', name: 'folder', widget: 'string' }
       - { label: 'Path', name: 'path', widget: 'string' }
       - { label: 'Body', name: 'body', widget: 'markdown' }
+
+  - name: 'doc-page'
+    label: 'Doc Page'
+    folder: 'src/markdown-pages/doc-pages'
+    create: true
+    slug: '{{slug}}'
+    path: '{{folder-1}}/{{folder-2}}/{{folder-3}}/{{slug}}'
+    fields:
+     - {
+         label: 'Template Key',
+         name: 'templateKey',
+         widget: 'hidden',
+         default: 'DocPageTemplate',
+       }
+     - { label: 'Title', name: 'title', widget: 'string' }
+     - { label: 'Path', name: 'path', widget: 'string' }
+     - {
+         label: 'Topic',
+         name: 'topic',
+         widget: 'select',
+         multiple: true,
+         required: false,
+         options: [{label: 'APM', value: 'apm'}, {label: 'Mobile Monitoring', value: 'mobile-monitoring'}]
+       }
+     - { label: 'Body', name: 'body', widget: 'markdown' }
