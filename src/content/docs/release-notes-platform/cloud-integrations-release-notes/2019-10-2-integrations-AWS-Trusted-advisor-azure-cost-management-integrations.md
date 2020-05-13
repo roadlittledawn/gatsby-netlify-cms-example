@@ -1,0 +1,42 @@
+---
+title: "2019-10-2 integrations: AWS Trusted Advisor, Azure Cost Management integrations"
+path: /docs/release-notes/platform-release-notes/cloud-integrations-release-notes/2019-10-2-integrations-aws-trusted-advisor-azure-cost-management-integrations
+contentType: releaseNotePlatform
+templateKey: BasicDocPageTemplate
+topics:
+  - Release notes
+  - Platform release notes
+  - Cloud integrations release notes
+metaDescription: "For an overview of New Relic's PHP agent (compatibility, requirements, installation, configuration, troubleshooting, known issues), start here."
+---
+
+<h3>New</h3>
+
+<ul>
+	<li><strong>AWS Trusted Advisor integration</strong>
+
+	<ul>
+		<li>New Relic now offers an integration with <a href="https://aws.amazon.com/premiumsupport/technology/trusted-advisor/" rel="nofollow" target="_blank">AWS Trusted Advisor</a>. AWS establishes <a href="https://docs.aws.amazon.com/general/latest/gr/aws_service_limits.html" rel="nofollow" target="_blank">limits for each service</a> in each account and region. Some examples are: <em>number of Auto Scaling groups</em>, <em>number of EBS active volumes</em>, and <em>number of EC2 elastic IP addresses</em>. AWS recommends watching these limits, and even allows you to enable automated actions and custom notifications. That data is now also available in New Relic.</li>
+		<li>For more information on how to enable the integration, check out the <a href="https://docs.newrelic.com/docs/integrations/amazon-integrations/aws-integrations-list/aws-trusted-advisor-integration">integration documentation</a>.</li>
+	</ul>
+	</li>
+	<li><strong>Azure Cost Management integration</strong>
+	<ul>
+		<li>New Relic now offers a cloud integration with the <a href="https://azure.microsoft.com/en-us/services/cost-management/">Azure Cost Management</a> service. It provides the accumulated costs in the billing period, grouped by cloud service, resource group, region and (if configured) custom tags.</li>
+		<li>For more information on how to enable the integration, check out the <a href="https://docs.newrelic.com/docs/integrations/microsoft-azure-integrations/azure-integrations-list/azure-cost-management-monitoring-integration">integration documentation</a>.</li>
+	</ul>
+	</li>
+</ul>
+
+<h3>Changes</h3>
+
+<ul>
+	<li>Added new metrics for AWS ElastiCache Nodes
+	<ul>
+		<li>ActiveDefragHits</li>
+		<li>EngineCpuUtilization</li>
+		<li>StreamBasedCmds</li>
+	</ul>
+	</li>
+	<li>Added the option of a 5min polling interval for the VPC integration</li>
+</ul>
