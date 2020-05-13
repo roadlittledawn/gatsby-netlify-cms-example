@@ -3,6 +3,8 @@ title: "Real Time Streaming for APM Events"
 contentType: nr1Announcement
 templateKey: BasicDocPageTemplate
 releaseDateTime: "2020-04-02 20:00"
+topics:
+- APM
 learnMoreLink:
 - link: "https://example.com/learn-more"
   text: "Learn More"
