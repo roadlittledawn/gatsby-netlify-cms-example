@@ -7,6 +7,9 @@ topics:
   - Agents
   - PHP agent
   - Get started
+moreInfoLinks:
+- link: "/docs/agents/php-agent/troubleshooting/no-data-appears-php"
+  text: "No data appears (PHP)"
 metaDescription: "For an overview of New Relic's PHP agent (compatibility, requirements, installation, configuration, troubleshooting, known issues), start here."
 ---
 <p>The New Relic PHP agent monitors your application to help you <a href="#monitor-performance">identify and solve performance issues</a>. You can also extend the agent's performance monitoring to <a href="#business-data">collect and analyze business data</a> to help you improve the customer experience and make data-driven business decisions.</p>
