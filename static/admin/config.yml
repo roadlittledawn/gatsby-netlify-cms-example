@@ -16,7 +16,7 @@ public_folder: /img
 collections:
   - name: 'guide'
     label: 'Guide'
-    folder: 'src/markdown-pages'
+    folder: 'src/content'
     create: true
     slug: '{{slug}}'
     path: '{{folder}}/{{slug}}'
@@ -34,8 +34,8 @@ collections:
       - { label: 'Body', name: 'body', widget: 'markdown' }
 
   - name: 'doc-page'
-    label: 'Doc Page'
-    folder: 'src/markdown-pages/doc-pages'
+    label: 'Basic Doc Page'
+    folder: 'src/content/doc-pages'
     create: true
     slug: '{{slug}}'
     path: '{{folder-1}}/{{folder-2}}/{{folder-3}}/{{slug}}'
@@ -44,7 +44,7 @@ collections:
          label: 'Template Key',
          name: 'templateKey',
          widget: 'hidden',
-         default: 'DocPageTemplate',
+         default: 'BasicDocPageTemplate',
        }
      - { label: 'Title', name: 'title', widget: 'string' }
      - { label: 'Path', name: 'path', widget: 'string' }

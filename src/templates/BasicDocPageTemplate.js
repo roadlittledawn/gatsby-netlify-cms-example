@@ -5,7 +5,7 @@ import Layout from '../components/Layout';
 import BreadcrumbBar from '../components/BreadcrumbBar';
 import Container from '../components/Container';
 
-export default function DocPageTemplate({
+export default function BasicDocPageTemplate({
   data, // this prop will be injected by the GraphQL query below.
 }) {
   const { markdownRemark } = data; // data.markdownRemark holds your post data
@@ -19,13 +19,13 @@ export default function DocPageTemplate({
 
   return (
     <Layout>
-      <BreadcrumbBar crumbs={crumbs} duration={frontmatter.duration} />
+      {/* <BreadcrumbBar crumbs={crumbs} /> */}
       <Container>
-        <div className="guideTemplate-container">
+        <div className="basicDocPageTemplate-container">
           <div>
             <h1>{frontmatter.title}</h1>
             <div
-              className="guideTemplate-content"
+              className="basicDocPageTemplate-content"
               dangerouslySetInnerHTML={{ __html: html }}
             />
           </div>
@@ -36,15 +36,16 @@ export default function DocPageTemplate({
 }
 export const pageQuery = graphql`
   query($path: String!) {
-    markdownRemark(frontmatter: { path: { eq: $path } }) {
+    markdownRemark(fields: {urlPath: {eq: $path}}) {
       html
       frontmatter {
         path
         title
+        topics
       }
     }
   }
 `;
-DocPageTemplate.propTypes = {
+BasicDocPageTemplate.propTypes = {
   data: PropTypes.object,
 };

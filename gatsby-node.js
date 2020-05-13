@@ -1,21 +1,29 @@
 const path = require(`path`);
+const { createFilePath } = require(`gatsby-source-filesystem`)
 
 exports.createPages = async ({ actions, graphql, reporter }) => {
   const { createPage } = actions;
-
   const result = await graphql(`
-    {
-      allMarkdownRemark(limit: 1000) {
-        edges {
-          node {
-            frontmatter {
-              path
-              templateKey
+  {
+    allMarkdownRemark {
+      edges {
+        node {
+          frontmatter {
+            title
+            topics
+            templateKey
+            path
+            contentType
+          }
+          parent {
+            ... on File {
+              relativePath
             }
           }
         }
       }
     }
+  }
   `);
 
   // Handle errors
@@ -25,8 +33,9 @@ exports.createPages = async ({ actions, graphql, reporter }) => {
   }
 
   result.data.allMarkdownRemark.edges.forEach(({ node }) => {
+    const relativePath = node.parent.relativePath.split('.')
     createPage({
-      path: node.frontmatter.path,
+      path: node.frontmatter.path || `/${relativePath[0]}`,
       component: path.resolve(
         `src/templates/${node.frontmatter.templateKey}.js`
       ),
@@ -34,3 +43,15 @@ exports.createPages = async ({ actions, graphql, reporter }) => {
     });
   });
 };
+
+exports.onCreateNode = ({ node, getNode, actions }) => {
+  const { createNodeField } = actions
+  if (node.internal.type === 'MarkdownRemark') {
+    let slug = node.frontmatter.path || createFilePath({ node, getNode, trailingSlash: false })
+    createNodeField({
+      node,
+      name: 'urlPath',
+      value: slug,
+    })
+  }
+}
