@@ -18,9 +18,13 @@ Your site is now running at `http://localhost:8000`!
 * Add sitewide nav menu
 * Add redirects
 * Add [gatsby-plugin-json-output](https://www.gatsbyjs.org/packages/gatsby-plugin-json-output/) for JSON files and feeds
-* Add sample content from all contnet types on current site
 * Add field validation for certain graphql/frontmatter types
   * `path`: ensure unique. decide if user should supply or automatically generated based on directory? use default gatsby pattern (slugified directory and filename path) if not specified
 * Add / figure out how translation (smartling)
 * Add categories in frontmatter (category pages too?)
 * Use frontmatter to set `<meta>` and other related tags (swiftype, SEO, hreflang links)
+
+# Notes to self (or whomever is reading)
+* I'm inclined to not make API doc its own content type, because many fields are HTML fields and it won't really work with frontmatter syntax.
+* Site nav: Dynamically navigate through all directories OR links off to landing pages?
+* Decision: How much of frontmatter is optional / required? What are defaults if any?
