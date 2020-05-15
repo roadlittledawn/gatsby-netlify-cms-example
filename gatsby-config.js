@@ -37,6 +37,33 @@ module.exports = {
     },
     `gatsby-transformer-remark`,
     {
+      resolve: `gatsby-plugin-json-output`,
+      options: {
+        siteUrl: 'http://localhost.com:8000',
+        graphQLQuery: `
+        {
+          allMarkdownRemark {
+            edges {
+              node {
+                html
+                fields { urlPath }
+                frontmatter {
+                  title
+                  path
+                }
+              }
+            }
+          }
+        }
+      `,
+      serialize: results => results.data.allMarkdownRemark.edges.map(({ node }) => ({
+        path: node.fields.urlPath, // MUST contain a path
+        title: node.frontmatter.title,
+        html: node.html,
+      })),
+      }
+    },
+    {
       resolve: 'gatsby-plugin-netlify-cms',
     },
   ],
