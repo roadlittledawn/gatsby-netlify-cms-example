@@ -61,6 +61,12 @@ module.exports = {
         title: node.frontmatter.title,
         html: node.html,
       })),
+      serializeFeed: results => results.data.allMarkdownRemark.edges.map(({ node }) => ({
+        id: node.fields.urlPath,
+        url: 'http://localhost:8000' + node.fields.urlPath,
+        title: node.frontmatter.title,
+      })),
+      nodesPerFeedFile: 100,
       }
     },
     {
