@@ -37,6 +37,87 @@ module.exports = {
     },
     `gatsby-transformer-remark`,
     {
+      resolve: `gatsby-plugin-json-output`,
+      options: {
+        siteUrl: 'http://localhost.com:8000',
+        graphQLQuery: `
+        {
+          allMarkdownRemark {
+            edges {
+              node {
+                frontmatter {
+                  title
+                  path
+                }
+                html
+                fields {
+                  urlPath
+                }
+              }
+            }
+          }
+        }
+      `,
+      serialize: results => results.data.allMarkdownRemark.edges.map(({ node }) => ({
+        path: node.fields.urlPath, // MUST contain a path
+        title: node.frontmatter.title,
+        html: node.html,
+      })),
+      serializeFeed: results => results.data.allMarkdownRemark.edges.map(({ node }) => ({
+        id: node.fields.urlPath,
+        url: `http://localhost:8000${node.fields.urlPath}/index.json`,
+        title: node.frontmatter.title,
+      })),
+      nodesPerFeedFile: 100,
+      feedName: 'allContent'
+      }
+    },
+    {
+      resolve: `gatsby-plugin-json-output`,
+      options: {
+        siteUrl: 'http://localhost.com:8000',
+        graphQLQuery: `
+        {
+          allMarkdownRemark(filter: {frontmatter: {contentType: {eq: "attributeDefinition"}}}) {
+            edges {
+              node {
+                frontmatter {
+                  title
+                  path
+                  dataSources
+                  dataTypes
+                  shortDescription
+                  unitOfMeasure
+                }
+                html
+                fields {
+                  urlPath
+                }
+              }
+            }
+          }
+        }
+      `,
+      serialize: results => results.data.allMarkdownRemark.edges.map(({ node }) => ({
+        path: node.fields.urlPath, // MUST contain a path
+        title: node.frontmatter.title,
+        html: node.html,
+      })),
+      serializeFeed: results => results.data.allMarkdownRemark.edges.map(({ node }) => ({
+        id: node.fields.urlPath,
+        url: `http://localhost:8000${node.fields.urlPath}/index.json`,
+        title: node.frontmatter.title,
+        dataSources: node.frontmatter.dataSources,
+        dataTypes: node.frontmatter.dataTypes,
+        shortDescription: node.frontmatter.shortDescription,
+        unitOfMeasure: node.frontmatter.unitOfMeasure,
+        html: node.html
+      })),
+      nodesPerFeedFile: 100,
+      feedName: 'attributeDefinitions'
+      }
+    },
+    {
       resolve: 'gatsby-plugin-netlify-cms',
     },
   ],
