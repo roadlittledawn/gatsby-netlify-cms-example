@@ -25,7 +25,7 @@ export default (props) => {
       <div className="directoryListingWrapper">
         <div className="directoryListingRow">
           <i className="material-icons">folder</i>
-          <Link to={`${document.location.pathname + '/../'}`}>..</Link>
+          <Link to={`${props.uri + '/../'}`}>..</Link>
         </div>
         {listings.map((listing)=>{
           return (
