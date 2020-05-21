@@ -118,6 +118,32 @@ module.exports = {
       }
     },
     {
+      resolve: `gatsby-plugin-json-output`,
+      options: {
+        siteUrl: 'http://localhost.com:8000',
+        graphQLQuery: `
+        {
+          allDirectory(filter: {relativeDirectory: {eq: "docs"}}) {
+            edges {
+              node {
+                name
+                id
+                relativePath
+              }
+            }
+          }
+        }
+      `,
+      serializeFeed: results => results.data.allDirectory.edges.map(({ node }) => ({
+        id: node.id,
+        name: node.name,
+        path: node.relativePath
+      })),
+      nodesPerFeedFile: 100,
+      feedName: 'docs-folders'
+      }
+    },
+    {
       resolve: 'gatsby-plugin-netlify-cms',
     },
   ],
