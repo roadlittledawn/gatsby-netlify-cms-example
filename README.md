@@ -19,6 +19,7 @@ Your site is now running at `http://localhost:8000`!
 * Add automatic directory index pages for each directory
   * Change index.md template to use its own template
 * Add redirects
+* Add JSON feed for directories (proof of concept for feeding top level folder names to search app)
 * Use frontmatter to set `<meta>` and other related tags (swiftype, SEO, hreflang links)
 * Add field validation for certain graphql/frontmatter types
   * `path`: ensure unique. decide if user should supply or automatically generated based on directory? use default gatsby pattern (slugified directory and filename path) if not specified
