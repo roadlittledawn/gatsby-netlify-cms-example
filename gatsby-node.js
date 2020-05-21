@@ -71,13 +71,14 @@ exports.createPages = async ({ actions, graphql, reporter }) => {
   }
 
   result.data.allMarkdownRemark.edges.forEach(({ node }) => {
+    console.log(node.fields.urlPath)
     const relativePath = node.parent.relativePath.split('.')
     // Get dir of file
     const subdirAbs = path.dirname(node.fileAbsolutePath);
     // Note that this md file is child of dir
     recordAsChild(subdirAbs,node,false);
     createPage({
-      path: node.frontmatter.path || `/${relativePath[0]}`,
+      path: node.fields.urlPath,
       component: path.resolve(
         `src/templates/${node.frontmatter.templateKey}.js`
       ),
