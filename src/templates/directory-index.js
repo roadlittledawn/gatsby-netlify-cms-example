@@ -1,19 +1,10 @@
 import React from "react"
 import { Link, graphql } from "gatsby"
-
 import Layout from "../components/layout"
-import Image from "../components/image"
 import SEO from "../components/seo"
-import {strMethods} from "../helpers/helpers"
-
-function makeDisplayName(slug){
-  slug = slug.replace(/-/gim,' ');
-  slug = slug.split(/\//).map((e)=>{return strMethods.toTitleCase(e)}).join('/');
-  return slug;
-}
 
 export default (props) => {
-  const displayName = makeDisplayName(props.pageContext.slug);
+  const displayName = props.pageContext.slug;
   const children = props.pageContext.meta.children;
   // Compile listings - subdirectories and files
   let listings = [];
@@ -23,8 +14,8 @@ export default (props) => {
     isDir: true
   }}));
   listings = listings.concat(children.md.map(function(m){return {
-    path: m.fields.slug,
-    display: m.parent.name,
+    path: m.fields.urlPath,
+    display: m.frontmatter.title,
     isDir: false
   }}));
   return (
