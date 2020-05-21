@@ -1,7 +1,7 @@
 import React from "react"
 import { Link, graphql } from "gatsby"
-import Layout from "../components/layout"
-import SEO from "../components/seo"
+import Layout from "../components/Layout"
+import SEO from "../components/Seo"
 
 export default (props) => {
   const displayName = props.pageContext.slug;
@@ -25,7 +25,7 @@ export default (props) => {
       <div className="directoryListingWrapper">
         <div className="directoryListingRow">
           <i className="material-icons">folder</i>
-          <Link to={`${document.location.pathname + '/../'}`}>..</Link>
+          <Link to={`${props.uri + '/../'}`}>..</Link>
         </div>
         {listings.map((listing)=>{
           return (
