@@ -14,956 +14,956 @@ metaDescription: "For configuration of New Relic's synthetics monitors read this
 <div class="callout-important">
 <p>This document describes scripted browser functions available for Synthetics monitor versions 0.5.x or higher. If you are using older monitor versions, see the <a href="/docs/synthetics/new-relic-synthetics/scripting-monitors/synthetics-scripted-browser-reference">monitor version 0.4.0 and lower documentation</a>.</p>
 </div><p>To determine a monitor's version: Go to <b><a href="https://synthetics.newrelic.com">synthetics.newrelic.com</a> > (select a monitor) > Settings > General</b>. For more on monitor versions and runtime differences, see <a href="/docs/synthetics/new-relic-synthetics/scripting-monitors/scripted-monitor-runtime-environment">Runtime environments</a>.</p><h2 id="selenium">Selenium Webdriver APIs</h2><p>The New Relic Synthetics <a href="/docs/synthetics/new-relic-synthetics/scripting-monitors/write-scripted-browsers">scripted browsers</a> provide access to the <a href="http://seleniumhq.github.io/selenium/docs/api/javascript/index.html">Selenium Webdriver APIs 3.6.0</a> for monitor version 0.6.x and <a href="http://seleniumhq.github.io/selenium/docs/api/javascript/index.html">Selenium Webdriver APIs 3.5.0</a> for monitor version 0.5.x via the variables <code>$driver</code> and <code>$browser</code>. In particular:</p><ul>
-	<li><code>$driver</code> provides all the exports from the <code>selenium-webdriver</code> module (for example, <code>ActionSequence</code>, <code>Button</code>, <code>By</code>, <code>WebElement</code>, etc.).</li>
-	<li><code>$browser</code> is a New Relic Synthetics instance of <code>selenium-webdriver.WebDriver()</code>. It exposes the main basic <code>WebDriver</code> APIs like <code>get()</code> and <code>findElement()</code>, as well as some Synthetics custom APIs.</li>
+<li><code>$driver</code> provides all the exports from the <code>selenium-webdriver</code> module (for example, <code>ActionSequence</code>, <code>Button</code>, <code>By</code>, <code>WebElement</code>, etc.).</li>
+<li><code>$browser</code> is a New Relic Synthetics instance of <code>selenium-webdriver.WebDriver()</code>. It exposes the main basic <code>WebDriver</code> APIs like <code>get()</code> and <code>findElement()</code>, as well as some Synthetics custom APIs.</li>
 </ul><h2 id="structure">Top-level functions: Build your script</h2><p>New Relic Synthetics calls top-level functions directly from your <code>$browser</code> instance. These provide a wide range of functionality that covers many basic scriptable actions.</p><table>
-	<thead>
-		<tr>
-			<th style="width: 400px;">Function</th>
-			<th>Description</th>
-		</tr>
-	</thead>
-	<tbody>
-		<tr id="browser-actions">
-			<td>
-			<p><code>$browser.actions()</code></p>
-			</td>
-			<td>
-			<p>Creates a new action sequence using this driver. For a list of available actions, see <a href="#actionsequence">ActionSequence</a>.</p>			<p>Return value: void</p>
-			</td>
-		</tr>
-		<tr id="browser-addHeader">
-			<td>
-			<p><code>$browser.addHeader(headerKey: <var>string</var>, headerValue: <var>string</var>)</code></p>
-			</td>
-			<td>
-			<p>Adds header <code><var>headerKey</var></code> with value <code><var>headerValue</var></code> to the runtime.</p>			<p>Return value: void</p>
-			</td>
-		</tr>
-		<tr id="browser-addHeaders">
-			<td>
-			<p><code>$browser.addHeaders(headers: <var>?</var>)</code></p>
-			</td>
-			<td>
-			<p>Adds a map of headers to the runtime.</p>			<p>Return value: void</p>
-			</td>
-		</tr>
-		<tr id="browser-deleteHeader">
-			<td>
-			<p><code>$browser.deleteHeader(header: <var>string</var>)</code></p>
-			</td>
-			<td>
-			<p>Deletes a specific header from the runtime.</p>			<p>Return value: void</p>
-			</td>
-		</tr>
-		<tr id="browser-deleteHeaders">
-			<td>
-			<p><code>$browser.deleteHeaders(header: [<var>string</var>])</code></p>
-			</td>
-			<td>
-			<p>Deletes all headers in the argument from runtime.</p>			<p>Return value: void</p>
-			</td>
-		</tr>
-		<tr id="browser-addHostnameToBlacklist">
-			<td>
-			<p><code>$browser.addHostnameToBlacklist(hostname: <var>string</var>)</code></p>
-			</td>
-			<td>
-			<p>Adds a hostname to your deny list. Allows using <a href="#wildcard-use">wildcards</a>.</p>			<p>Return value: void</p>
-			</td>
-		</tr>
-		<tr id="browser-addHostnamesToBlacklist">
-			<td>
-			<p><code>$browser.addHostnamesToBlacklist(hostnameArr: [<var>string</var>])</code></p>
-			</td>
-			<td>
-			<p>Adds all hostnames in an array of arguments to your deny list. Allows using <a href="#wildcard-use">wildcards</a>.</p>			<p>Return value: void</p>
-			</td>
-		</tr>
-		<tr id="browser-addHostnameToWhitelist">
-			<td>
-			<p><code>$browser.addHostnameToWhitelist(hostname: <var>string</var>)</code></p>
-			</td>
-			<td>
-			<p>Adds a hostname blocked by default in Synthetics to your allow list.</p>			<p>Return value: void</p>
-			</td>
-		</tr>
-		<tr id="browser-addHostnamesToWhitelist">
-			<td>
-			<p><code>$browser.addHostnamesToWhitelist(hostnameArr: [<var>string</var>])</code></p>
-			</td>
-			<td>
-			<p>Adds all hostnames in the argument to your allow list.</p>			<p>Return value: void</p>
-			</td>
-		</tr>
-		<tr id="browser-deleteHostnameFromBlacklist">
-			<td>
-			<p><code>$browser.deleteHostnameFromBlacklist(hostname: <var>string</var>)</code></p>
-			</td>
-			<td>
-			<p>Removes a hostname for this browser instance from your deny list.</p>			<p>Return value: void</p>
-			</td>
-		</tr>
-		<tr id="browser-deleteHostnamesFromBlacklist">
-			<td>
-			<p><code>$browser.deleteHostnamesFromBlacklist(hostnameArr: [<var>string</var>])</code></p>
-			</td>
-			<td>
-			<p>Removes all hostnames in the argument from your deny list.</p>			<p>Return value: void</p>
-			</td>
-		</tr>
-		<tr id="browser-deleteHostnameFromWhitelist">
-			<td>
-			<p><code>$browser.deleteHostnameFromWhitelist(hostnameArr: [<var>string</var>])</code></p>
-			</td>
-			<td>
-			<p>Removes a hostname for this browser instance from your allow list.</p>			<p>Return value: void</p>
-			</td>
-		</tr>
-		<tr id="browser-deleteHostnamesFromWhitelist">
-			<td>
-			<p><code>$browser.deleteHostnamesFromWhitelist(hostnameArr: [<var>string</var>])</code></p>
-			</td>
-			<td>
-			<p>Removes all hostnames in the argument from your allow list for this browser instance.</p>			<p>Return value: void</p>
-			</td>
-		</tr>
-		<tr id="browser-executeAsyncScript">
-			<td>
-			<p><code>$browser.executeAsyncScript(script: <var>?</var>, var_args: <var>?</var>)</code></p>
-			</td>
-			<td>
-			<p>Schedules a command to execute asynchronous JavaScript in the context of the currently selected frame or window.</p>			<p>Return value: promise</p>
-			</td>
-		</tr>
-		<tr id="browser-executeScript">
-			<td>
-			<p><code>$browser.executeScript(script: <var>?</var>, var_args: <var>?</var>)</code></p>
-			</td>
-			<td>
-			<p>Schedules a command to execute JavaScript in the context of the currently selected frame or window.</p>			<p>Return value: promise</p>
-			</td>
-		</tr>
-		<tr id="browser-findElement">
-			<td>
-			<p><code>$browser.findElement(locator: $driver.<var>Locator</var>)</code></p>
-			</td>
-			<td>
-			<p>Schedule a command to <a href="#locators">find an element on the page</a>. If not found, Synthetics will return an error.</p>			<p>Return value: WebElement</p>
-			</td>
-		</tr>
-		<tr id="browser-findElements">
-			<td>
-			<p><code>$browser.findElements(locator: $driver.<var>Locator</var>)</code></p>
-			</td>
-			<td>
-			<p>Schedule a command to <a href="#locators">search for multiple elements on the page</a>.</p>			<p>Return value: promise</p>
-			</td>
-		</tr>
-		<tr id="browser-waitForAndFindElement">
-			<td>
-			<p><code>$browser.waitForAndFindElement(locator: $driver.<var>Locator</var> [, timeout: <var>number</var>)</code></p>
-			</td>
-			<td>
-			<p>Schedule a command to wait for and <a href="#locators">find an element on the page</a>, and another command to wait for it to be visible. If not found, Synthetics will return an error.</p>			<p>The timeout value is optional. It is applied separately to both tasks of finding the element and waiting for its visibility. This means at worst case, this method can take up to twice the provided timeout value. The default timeout value is 1000 ms (1 second).</p>			<p>Return value: promise</p>
-			</td>
-		</tr>
-		<tr id="browser-get">
-			<td>
-			<p><code>$browser.get(url: <var>string</var>)</code></p>
-			</td>
-			<td>
-			<p>Loads a webpage in a Synthetics browser.</p>			<p>Return value: promise</p>
-			</td>
-		</tr>
-		<tr id="browser-getAllWindowHandles">
-			<td>
-			<p><code>$browser.getAllWindowHandles()</code></p>
-			</td>
-			<td>
-			<p>Schedules a command to retrieve the current list of available window handles.</p>			<p>Return value: promise</p>
-			</td>
-		</tr>
-		<tr id="browser-getCapabilities">
-			<td>
-			<p><code>$browser.getCapabilities()</code></p>
-			</td>
-			<td>
-			<p>A promise that will resolve with the instance's capabilities.</p>			<p>Return value: promise</p>
-			</td>
-		</tr>
-		<tr id="browser-getCurrentUrl">
-			<td>
-			<p><code>$browser.getCurrentUrl()</code></p>
-			</td>
-			<td>
-			<p>Schedules a command to retrieve the URL of the current page.</p>			<p>Return value: promise</p>
-			</td>
-		</tr>
-		<tr id="browser-getHeaders">
-			<td>
-			<p><code>$browser.getHeaders()</code></p>
-			</td>
-			<td>
-			<p>Returns a map of currently configured headers.</p>			<p>Return value: map</p>
-			</td>
-		</tr>
-		<tr id="browser-getPageSource">
-			<td>
-			<p><code>$browser.getPageSource()</code></p>
-			</td>
-			<td>
-			<p>Schedules a command to retrieve the current page's source. The page source returned is a representation of the underlying DOM. Do not expect it to be formatted or escaped in the same way as the response sent from the web server.</p>			<p>Return value: promise</p>
-			</td>
-		</tr>
-		<tr id="browser-getSession">
-			<td>
-			<p><code>$browser.getSession()</code></p>
-			</td>
-			<td>
-			<p>A promise for this client's session.</p>			<p>Return value: promise</p>
-			</td>
-		</tr>
-		<tr id="browser-getTitle">
-			<td>
-			<p><code>$browser.getTitle()</code></p>
-			</td>
-			<td>
-			<p>Schedules a command to retrieve the current page's title.</p>			<p>Return value: promise</p>
-			</td>
-		</tr>
-		<tr id="browser-getWindowHandle">
-			<td>
-			<p><code>$browser.getWindowHandle()</code></p>
-			</td>
-			<td>
-			<p>Schedules a command to retrieve the current window handle.</p>			<p>Return value: promise</p>
-			</td>
-		</tr>
-		<tr id="browser-manage">
-			<td>
-			<p><code>$browser.manage()</code></p>
-			</td>
-			<td>
-			<p>The options interface for this instance. You can manage <a href="#options">cookies, timeouts, and other window options</a>.</p>			<p>Return value: void</p>
-			</td>
-		</tr>
-		<tr id="browser-navigate">
-			<td>
-			<p><code>$browser.navigate()</code></p>
-			</td>
-			<td>
-			<p>The <a href="#navigate">navigation interface (history of browser functions)</a> for this instance.</p>			<p>Return value: void</p>
-			</td>
-		</tr>
-		<tr id="browser-schedule">
-			<td>
-			<p><code>$browser.schedule(command: <var>?</var>, description: <var>string</var>)</code></p>
-			</td>
-			<td>
-			<p>Schedules a command to be executed by this driver's <code>CommandExecutor</code>.</p>			<p>Return value: promise</p>
-			</td>
-		</tr>
-		<tr id="browser-sleep">
-			<td>
-			<p><code>$browser.sleep()</code></p>
-			</td>
-			<td>
-			<p>Schedules a command to make the driver sleep for the given amount of time.</p>			<p>Return value: promise</p>
-			</td>
-		</tr>
-		<tr id="browser-switchTo">
-			<td>
-			<p><code>$browser.switchTo()</code></p>
-			</td>
-			<td>
-			<p>The target locator interface for this instance.</p>			<p>Return value: void</p>
-			</td>
-		</tr>
-		<tr id="browser-takeScreenshot">
-			<td>
-			<p><code>$browser.takeScreenshot()</code></p>
-			</td>
-			<td>
-			<p>Schedules a command to take a screenshot.</p>			<p>Return value: promise</p>
-			</td>
-		</tr>
-		<tr id="browser-wait">
-			<td>
-			<p><code>$browser.wait(fn: $driver.<var>Condition</var>, timeout: <var>number</var>, opt_message: <var>string</var>)</code></p>
-			</td>
-			<td>
-			<p>Schedules a <a href="#until">command to wait for a condition to hold</a>, as defined by your supplied function.</p>			<p>Return value: WebElement</p>
-			</td>
-		</tr>
-		<tr id="browser-waitforpending">
-			<td>
-			<p><code>$browser.waitForPendingRequests(timeout: <var>number</var>)</code></p>
-			</td>
-			<td>
-			<p>Causes the script to wait for requests that have been initiated to return, up to the timeout. Useful for tracking non-blocking resources.</p>			<p>Return value: promise</p>
-			</td>
-		</tr>
-	</tbody>
+<thead>
+<tr>
+<th style="width: 400px;">Function</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr id="browser-actions">
+<td>
+<p><code>$browser.actions()</code></p>
+</td>
+<td>
+<p>Creates a new action sequence using this driver. For a list of available actions, see <a href="#actionsequence">ActionSequence</a>.</p><p>Return value: void</p>
+</td>
+</tr>
+<tr id="browser-addHeader">
+<td>
+<p><code>$browser.addHeader(headerKey: <var>string</var>, headerValue: <var>string</var>)</code></p>
+</td>
+<td>
+<p>Adds header <code><var>headerKey</var></code> with value <code><var>headerValue</var></code> to the runtime.</p><p>Return value: void</p>
+</td>
+</tr>
+<tr id="browser-addHeaders">
+<td>
+<p><code>$browser.addHeaders(headers: <var>?</var>)</code></p>
+</td>
+<td>
+<p>Adds a map of headers to the runtime.</p><p>Return value: void</p>
+</td>
+</tr>
+<tr id="browser-deleteHeader">
+<td>
+<p><code>$browser.deleteHeader(header: <var>string</var>)</code></p>
+</td>
+<td>
+<p>Deletes a specific header from the runtime.</p><p>Return value: void</p>
+</td>
+</tr>
+<tr id="browser-deleteHeaders">
+<td>
+<p><code>$browser.deleteHeaders(header: [<var>string</var>])</code></p>
+</td>
+<td>
+<p>Deletes all headers in the argument from runtime.</p><p>Return value: void</p>
+</td>
+</tr>
+<tr id="browser-addHostnameToBlacklist">
+<td>
+<p><code>$browser.addHostnameToBlacklist(hostname: <var>string</var>)</code></p>
+</td>
+<td>
+<p>Adds a hostname to your deny list. Allows using <a href="#wildcard-use">wildcards</a>.</p><p>Return value: void</p>
+</td>
+</tr>
+<tr id="browser-addHostnamesToBlacklist">
+<td>
+<p><code>$browser.addHostnamesToBlacklist(hostnameArr: [<var>string</var>])</code></p>
+</td>
+<td>
+<p>Adds all hostnames in an array of arguments to your deny list. Allows using <a href="#wildcard-use">wildcards</a>.</p><p>Return value: void</p>
+</td>
+</tr>
+<tr id="browser-addHostnameToWhitelist">
+<td>
+<p><code>$browser.addHostnameToWhitelist(hostname: <var>string</var>)</code></p>
+</td>
+<td>
+<p>Adds a hostname blocked by default in Synthetics to your allow list.</p><p>Return value: void</p>
+</td>
+</tr>
+<tr id="browser-addHostnamesToWhitelist">
+<td>
+<p><code>$browser.addHostnamesToWhitelist(hostnameArr: [<var>string</var>])</code></p>
+</td>
+<td>
+<p>Adds all hostnames in the argument to your allow list.</p><p>Return value: void</p>
+</td>
+</tr>
+<tr id="browser-deleteHostnameFromBlacklist">
+<td>
+<p><code>$browser.deleteHostnameFromBlacklist(hostname: <var>string</var>)</code></p>
+</td>
+<td>
+<p>Removes a hostname for this browser instance from your deny list.</p><p>Return value: void</p>
+</td>
+</tr>
+<tr id="browser-deleteHostnamesFromBlacklist">
+<td>
+<p><code>$browser.deleteHostnamesFromBlacklist(hostnameArr: [<var>string</var>])</code></p>
+</td>
+<td>
+<p>Removes all hostnames in the argument from your deny list.</p><p>Return value: void</p>
+</td>
+</tr>
+<tr id="browser-deleteHostnameFromWhitelist">
+<td>
+<p><code>$browser.deleteHostnameFromWhitelist(hostnameArr: [<var>string</var>])</code></p>
+</td>
+<td>
+<p>Removes a hostname for this browser instance from your allow list.</p><p>Return value: void</p>
+</td>
+</tr>
+<tr id="browser-deleteHostnamesFromWhitelist">
+<td>
+<p><code>$browser.deleteHostnamesFromWhitelist(hostnameArr: [<var>string</var>])</code></p>
+</td>
+<td>
+<p>Removes all hostnames in the argument from your allow list for this browser instance.</p><p>Return value: void</p>
+</td>
+</tr>
+<tr id="browser-executeAsyncScript">
+<td>
+<p><code>$browser.executeAsyncScript(script: <var>?</var>, var_args: <var>?</var>)</code></p>
+</td>
+<td>
+<p>Schedules a command to execute asynchronous JavaScript in the context of the currently selected frame or window.</p><p>Return value: promise</p>
+</td>
+</tr>
+<tr id="browser-executeScript">
+<td>
+<p><code>$browser.executeScript(script: <var>?</var>, var_args: <var>?</var>)</code></p>
+</td>
+<td>
+<p>Schedules a command to execute JavaScript in the context of the currently selected frame or window.</p><p>Return value: promise</p>
+</td>
+</tr>
+<tr id="browser-findElement">
+<td>
+<p><code>$browser.findElement(locator: $driver.<var>Locator</var>)</code></p>
+</td>
+<td>
+<p>Schedule a command to <a href="#locators">find an element on the page</a>. If not found, Synthetics will return an error.</p><p>Return value: WebElement</p>
+</td>
+</tr>
+<tr id="browser-findElements">
+<td>
+<p><code>$browser.findElements(locator: $driver.<var>Locator</var>)</code></p>
+</td>
+<td>
+<p>Schedule a command to <a href="#locators">search for multiple elements on the page</a>.</p><p>Return value: promise</p>
+</td>
+</tr>
+<tr id="browser-waitForAndFindElement">
+<td>
+<p><code>$browser.waitForAndFindElement(locator: $driver.<var>Locator</var> [, timeout: <var>number</var>)</code></p>
+</td>
+<td>
+<p>Schedule a command to wait for and <a href="#locators">find an element on the page</a>, and another command to wait for it to be visible. If not found, Synthetics will return an error.</p><p>The timeout value is optional. It is applied separately to both tasks of finding the element and waiting for its visibility. This means at worst case, this method can take up to twice the provided timeout value. The default timeout value is 1000 ms (1 second).</p><p>Return value: promise</p>
+</td>
+</tr>
+<tr id="browser-get">
+<td>
+<p><code>$browser.get(url: <var>string</var>)</code></p>
+</td>
+<td>
+<p>Loads a webpage in a Synthetics browser.</p><p>Return value: promise</p>
+</td>
+</tr>
+<tr id="browser-getAllWindowHandles">
+<td>
+<p><code>$browser.getAllWindowHandles()</code></p>
+</td>
+<td>
+<p>Schedules a command to retrieve the current list of available window handles.</p><p>Return value: promise</p>
+</td>
+</tr>
+<tr id="browser-getCapabilities">
+<td>
+<p><code>$browser.getCapabilities()</code></p>
+</td>
+<td>
+<p>A promise that will resolve with the instance's capabilities.</p><p>Return value: promise</p>
+</td>
+</tr>
+<tr id="browser-getCurrentUrl">
+<td>
+<p><code>$browser.getCurrentUrl()</code></p>
+</td>
+<td>
+<p>Schedules a command to retrieve the URL of the current page.</p><p>Return value: promise</p>
+</td>
+</tr>
+<tr id="browser-getHeaders">
+<td>
+<p><code>$browser.getHeaders()</code></p>
+</td>
+<td>
+<p>Returns a map of currently configured headers.</p><p>Return value: map</p>
+</td>
+</tr>
+<tr id="browser-getPageSource">
+<td>
+<p><code>$browser.getPageSource()</code></p>
+</td>
+<td>
+<p>Schedules a command to retrieve the current page's source. The page source returned is a representation of the underlying DOM. Do not expect it to be formatted or escaped in the same way as the response sent from the web server.</p><p>Return value: promise</p>
+</td>
+</tr>
+<tr id="browser-getSession">
+<td>
+<p><code>$browser.getSession()</code></p>
+</td>
+<td>
+<p>A promise for this client's session.</p><p>Return value: promise</p>
+</td>
+</tr>
+<tr id="browser-getTitle">
+<td>
+<p><code>$browser.getTitle()</code></p>
+</td>
+<td>
+<p>Schedules a command to retrieve the current page's title.</p><p>Return value: promise</p>
+</td>
+</tr>
+<tr id="browser-getWindowHandle">
+<td>
+<p><code>$browser.getWindowHandle()</code></p>
+</td>
+<td>
+<p>Schedules a command to retrieve the current window handle.</p><p>Return value: promise</p>
+</td>
+</tr>
+<tr id="browser-manage">
+<td>
+<p><code>$browser.manage()</code></p>
+</td>
+<td>
+<p>The options interface for this instance. You can manage <a href="#options">cookies, timeouts, and other window options</a>.</p><p>Return value: void</p>
+</td>
+</tr>
+<tr id="browser-navigate">
+<td>
+<p><code>$browser.navigate()</code></p>
+</td>
+<td>
+<p>The <a href="#navigate">navigation interface (history of browser functions)</a> for this instance.</p><p>Return value: void</p>
+</td>
+</tr>
+<tr id="browser-schedule">
+<td>
+<p><code>$browser.schedule(command: <var>?</var>, description: <var>string</var>)</code></p>
+</td>
+<td>
+<p>Schedules a command to be executed by this driver's <code>CommandExecutor</code>.</p><p>Return value: promise</p>
+</td>
+</tr>
+<tr id="browser-sleep">
+<td>
+<p><code>$browser.sleep()</code></p>
+</td>
+<td>
+<p>Schedules a command to make the driver sleep for the given amount of time.</p><p>Return value: promise</p>
+</td>
+</tr>
+<tr id="browser-switchTo">
+<td>
+<p><code>$browser.switchTo()</code></p>
+</td>
+<td>
+<p>The target locator interface for this instance.</p><p>Return value: void</p>
+</td>
+</tr>
+<tr id="browser-takeScreenshot">
+<td>
+<p><code>$browser.takeScreenshot()</code></p>
+</td>
+<td>
+<p>Schedules a command to take a screenshot.</p><p>Return value: promise</p>
+</td>
+</tr>
+<tr id="browser-wait">
+<td>
+<p><code>$browser.wait(fn: $driver.<var>Condition</var>, timeout: <var>number</var>, opt_message: <var>string</var>)</code></p>
+</td>
+<td>
+<p>Schedules a <a href="#until">command to wait for a condition to hold</a>, as defined by your supplied function.</p><p>Return value: WebElement</p>
+</td>
+</tr>
+<tr id="browser-waitforpending">
+<td>
+<p><code>$browser.waitForPendingRequests(timeout: <var>number</var>)</code></p>
+</td>
+<td>
+<p>Causes the script to wait for requests that have been initiated to return, up to the timeout. Useful for tracking non-blocking resources.</p><p>Return value: promise</p>
+</td>
+</tr>
+</tbody>
 </table><h2 id="wildcard-use">Deny list: Wildcard use</h2><p>If you want to add domains to the deny list for your browser instance, the wildcards must match the URL syntax of the URL to be blocked.</p><p>An overall <code>.com</code> deny list must contain these functions:</p><table>
-	<thead>
-		<tr>
-			<th>Function</th>
-			<th style="width: 200px;">Blocking action</th>
-		</tr>
-	</thead>
-	<tbody>
-		<tr id="options-manage-addCookie">
-			<td>
-			<p><code>$browser.addHostnameToBlacklist('*.com');</code></p>
-			</td>
-			<td><code>a.com</code></td>
-		</tr>
-		<tr>
-			<td><code>$browser.addHostnameToBlacklist('*.*.com');</code></td>
-			<td><code>a.b.com</code></td>
-		</tr>
-		<tr>
-			<td><code>$browser.addHostnameToBlacklist('*.*.*.com');</code></td>
-			<td><code>a.b.c.com</code></td>
-		</tr>
-		<tr>
-			<td><code>$browser.addHostnameToBlacklist('www.*.com');</code></td>
-			<td><code>www.a.com</code></td>
-		</tr>
-		<tr>
-			<td><code>$browser.addHostnameToBlacklist('www.*.*.com');</code></td>
-			<td><code>www.a.b.com</code></td>
-		</tr>
-		<tr>
-			<td><code>$browser.addHostnameToBlacklist('www.*.*.*.com');</code></td>
-			<td><code>www.a.b.c.com</code></td>
-		</tr>
-	</tbody>
+<thead>
+<tr>
+<th>Function</th>
+<th style="width: 200px;">Blocking action</th>
+</tr>
+</thead>
+<tbody>
+<tr id="options-manage-addCookie">
+<td>
+<p><code>$browser.addHostnameToBlacklist('*.com');</code></p>
+</td>
+<td><code>a.com</code></td>
+</tr>
+<tr>
+<td><code>$browser.addHostnameToBlacklist('*.*.com');</code></td>
+<td><code>a.b.com</code></td>
+</tr>
+<tr>
+<td><code>$browser.addHostnameToBlacklist('*.*.*.com');</code></td>
+<td><code>a.b.c.com</code></td>
+</tr>
+<tr>
+<td><code>$browser.addHostnameToBlacklist('www.*.com');</code></td>
+<td><code>www.a.com</code></td>
+</tr>
+<tr>
+<td><code>$browser.addHostnameToBlacklist('www.*.*.com');</code></td>
+<td><code>www.a.b.com</code></td>
+</tr>
+<tr>
+<td><code>$browser.addHostnameToBlacklist('www.*.*.*.com');</code></td>
+<td><code>www.a.b.c.com</code></td>
+</tr>
+</tbody>
 </table><h2 id="options">Options: Manage the browser instance</h2><p>These functions manage options for your browser instance, such as cookies, timeouts, and window size. Access these options through the <a href="#browser-manage"><code>$browser.manage()</code></a> function.</p><table>
-	<thead>
-		<tr>
-			<th style="width: 400px;">Function</th>
-			<th>Description</th>
-		</tr>
-	</thead>
-	<tbody>
-		<tr id="options-manage-addCookie">
-			<td>
-			<p><code>$browser.manage().addCookie(spec: <font color="#000000"><span style="background-color: rgb(153, 221, 221);"><i>object</i></span></font>)</code></p>
-			</td>
-			<td>
-			<p>Schedules a command to add a cookie.</p>			<p><code>spec</code> is a record object describing a browser cookie. For more information, see the <a href="http://seleniumhq.github.io/selenium/docs/api/javascript/module/selenium-webdriver/lib/webdriver_exports_Options.Cookie.html">Selenium documentation</a>.</p>			<p>Return value: promise</p>
-			</td>
-		</tr>
-		<tr id="options-manage-deleteAllCookies">
-			<td>
-			<p><code>$browser.manage().deleteAllCookies()</code></p>
-			</td>
-			<td>
-			<p>Schedules a command to delete all cookies visible to the current page.</p>			<p>Return value: promise</p>
-			</td>
-		</tr>
-		<tr id="options-manage-deleteCookie">
-			<td>
-			<p><code>$browser.manage().deleteCookie(name: <var>string</var>)</code></p>
-			</td>
-			<td>
-			<p>Schedules a command to delete the cookie with the given name. This command is a no-op if there is no cookie with the given name visible to the current page.</p>			<p>Return value: promise</p>
-			</td>
-		</tr>
-		<tr id="options-manage-getCookie">
-			<td>
-			<p><code>$browser.manage().getCookie(name: <var>string</var>)</code></p>
-			</td>
-			<td>
-			<p>Schedules a command to retrieve the cookie with the given name. Returns null if there is no such cookie. The cookie will be returned as a JSON object as described by the WebDriver wire protocol.</p>			<p>Return value: promise</p>
-			</td>
-		</tr>
-		<tr id="options-manage-getCookies">
-			<td>
-			<p><code>$browser.manage().getCookies()</code></p>
-			</td>
-			<td>
-			<p>Schedules a command to retrieve all cookies visible to the current page. New Relic Syntheticcs returns each cookie as a JSON object as described by the WebDriver wire protocol.</p>			<p>Return value: promise</p>
-			</td>
-		</tr>
-		<tr id="options-manage-timeouts-implicitlyWait">
-			<td>
-			<p><code>$browser.manage().timeouts().implicitlyWait(ms: <var>number</var>)</code></p>
-			</td>
-			<td>
-			<p>Specifies the amount of time the driver should wait when searching for an element if it is not immediately present. Setting the wait timeout to <code>0</code> disables implicit waiting.</p>			<p>Be careful increasing the wait timeout, as it will increase test run time, especially with slower location strategies like XPath. Default is 10 seconds.</p>			<p>Return value: promise</p>
-			</td>
-		</tr>
-		<tr id="options-manage-timeouts-pageLoadTimeout">
-			<td>
-			<p><code>$browser.manage().timeouts().pageLoadTimeout(ms: <var>number</var>)</code></p>
-			</td>
-			<td>
-			<p>Sets the amount of time to wait for a page load to complete before returning an error. If the timeout is negative, page loads may last up to 180 seconds. Default is 60 seconds.</p>			<p>Return value: promise</p>
-			</td>
-		</tr>
-		<tr id="options-manage-timeouts-setScriptTimeout">
-			<td>
-			<p><code>$browser.manage().timeouts().setScriptTimeout(ms: <var>number</var>)</code></p>
-			</td>
-			<td>
-			<p>Sets the amount of time to wait, in milliseconds, for an asynchronous script to finish execution before returning an error. Default is 30 seconds.</p>			<p>Return value: promise</p>
-			</td>
-		</tr>
-		<tr id="options-manage-window-getPosition">
-			<td>
-			<p><code>$browser.manage().window().getPosition()</code></p>
-			</td>
-			<td>
-			<p>Retrieves the window's current position, relative to the top left corner of the screen.</p>			<p>Return value: promise</p>
-			</td>
-		</tr>
-		<tr id="options-manage-window-getSize">
-			<td>
-			<p><code>$browser.manage().window().getSize()</code></p>
-			</td>
-			<td>
-			<p>Retrieves the window's current size.</p>			<p>Return value: promise</p>
-			</td>
-		</tr>
-		<tr id="options-manage-window-maximize">
-			<td>
-			<p><code>$browser.manage().window().maximize()</code></p>
-			</td>
-			<td>
-			<p>Maximizes the current window.</p>			<p>Return value: promise</p>
-			</td>
-		</tr>
-		<tr id="options-manage-window-setPosition">
-			<td>
-			<p><code>$browser.manage().window().setPosition(x: <var>number</var>, y: <var>number</var>)</code></p>
-			</td>
-			<td>
-			<p>Repositions the current window.</p>			<p>Return value: promise</p>
-			</td>
-		</tr>
-		<tr id="options-manage-window-setSize">
-			<td>
-			<p><code>$browser.manage().window().setSize(width: <var>number</var>, height: <var>number</var>)</code></p>
-			</td>
-			<td>
-			<p>Resizes the current window.</p>			<p>Return value: promise</p>
-			</td>
-		</tr>
-	</tbody>
+<thead>
+<tr>
+<th style="width: 400px;">Function</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr id="options-manage-addCookie">
+<td>
+<p><code>$browser.manage().addCookie(spec: <font color="#000000"><span style="background-color: rgb(153, 221, 221);"><i>object</i></span></font>)</code></p>
+</td>
+<td>
+<p>Schedules a command to add a cookie.</p><p><code>spec</code> is a record object describing a browser cookie. For more information, see the <a href="http://seleniumhq.github.io/selenium/docs/api/javascript/module/selenium-webdriver/lib/webdriver_exports_Options.Cookie.html">Selenium documentation</a>.</p><p>Return value: promise</p>
+</td>
+</tr>
+<tr id="options-manage-deleteAllCookies">
+<td>
+<p><code>$browser.manage().deleteAllCookies()</code></p>
+</td>
+<td>
+<p>Schedules a command to delete all cookies visible to the current page.</p><p>Return value: promise</p>
+</td>
+</tr>
+<tr id="options-manage-deleteCookie">
+<td>
+<p><code>$browser.manage().deleteCookie(name: <var>string</var>)</code></p>
+</td>
+<td>
+<p>Schedules a command to delete the cookie with the given name. This command is a no-op if there is no cookie with the given name visible to the current page.</p><p>Return value: promise</p>
+</td>
+</tr>
+<tr id="options-manage-getCookie">
+<td>
+<p><code>$browser.manage().getCookie(name: <var>string</var>)</code></p>
+</td>
+<td>
+<p>Schedules a command to retrieve the cookie with the given name. Returns null if there is no such cookie. The cookie will be returned as a JSON object as described by the WebDriver wire protocol.</p><p>Return value: promise</p>
+</td>
+</tr>
+<tr id="options-manage-getCookies">
+<td>
+<p><code>$browser.manage().getCookies()</code></p>
+</td>
+<td>
+<p>Schedules a command to retrieve all cookies visible to the current page. New Relic Syntheticcs returns each cookie as a JSON object as described by the WebDriver wire protocol.</p><p>Return value: promise</p>
+</td>
+</tr>
+<tr id="options-manage-timeouts-implicitlyWait">
+<td>
+<p><code>$browser.manage().timeouts().implicitlyWait(ms: <var>number</var>)</code></p>
+</td>
+<td>
+<p>Specifies the amount of time the driver should wait when searching for an element if it is not immediately present. Setting the wait timeout to <code>0</code> disables implicit waiting.</p><p>Be careful increasing the wait timeout, as it will increase test run time, especially with slower location strategies like XPath. Default is 10 seconds.</p><p>Return value: promise</p>
+</td>
+</tr>
+<tr id="options-manage-timeouts-pageLoadTimeout">
+<td>
+<p><code>$browser.manage().timeouts().pageLoadTimeout(ms: <var>number</var>)</code></p>
+</td>
+<td>
+<p>Sets the amount of time to wait for a page load to complete before returning an error. If the timeout is negative, page loads may last up to 180 seconds. Default is 60 seconds.</p><p>Return value: promise</p>
+</td>
+</tr>
+<tr id="options-manage-timeouts-setScriptTimeout">
+<td>
+<p><code>$browser.manage().timeouts().setScriptTimeout(ms: <var>number</var>)</code></p>
+</td>
+<td>
+<p>Sets the amount of time to wait, in milliseconds, for an asynchronous script to finish execution before returning an error. Default is 30 seconds.</p><p>Return value: promise</p>
+</td>
+</tr>
+<tr id="options-manage-window-getPosition">
+<td>
+<p><code>$browser.manage().window().getPosition()</code></p>
+</td>
+<td>
+<p>Retrieves the window's current position, relative to the top left corner of the screen.</p><p>Return value: promise</p>
+</td>
+</tr>
+<tr id="options-manage-window-getSize">
+<td>
+<p><code>$browser.manage().window().getSize()</code></p>
+</td>
+<td>
+<p>Retrieves the window's current size.</p><p>Return value: promise</p>
+</td>
+</tr>
+<tr id="options-manage-window-maximize">
+<td>
+<p><code>$browser.manage().window().maximize()</code></p>
+</td>
+<td>
+<p>Maximizes the current window.</p><p>Return value: promise</p>
+</td>
+</tr>
+<tr id="options-manage-window-setPosition">
+<td>
+<p><code>$browser.manage().window().setPosition(x: <var>number</var>, y: <var>number</var>)</code></p>
+</td>
+<td>
+<p>Repositions the current window.</p><p>Return value: promise</p>
+</td>
+</tr>
+<tr id="options-manage-window-setSize">
+<td>
+<p><code>$browser.manage().window().setSize(width: <var>number</var>, height: <var>number</var>)</code></p>
+</td>
+<td>
+<p>Resizes the current window.</p><p>Return value: promise</p>
+</td>
+</tr>
+</tbody>
 </table><h2 id="locators">Locators: Find page elements</h2><p>Locators are a collection of factory functions for creating <code>locator</code> instances. Locators find DOM elements, which can be passed to functions such as <a href="#browser-findElement"><code>$browser.findElement</code></a>. Call them through <code>$driver.By</code>.</p><table>
-	<thead>
-		<tr>
-			<th style="width: 400px;">Function</th>
-			<th>Description</th>
-		</tr>
-	</thead>
-	<tbody>
-		<tr id="driver-by-className">
-			<td>
-			<p><code>$driver.By.className(className: <var>string</var>)</code></p>
-			</td>
-			<td>
-			<p>Locates an element that has a specific class name. The returned locator is equivalent to searching for elements with the CSS selector <code>.clazz</code>.</p>			<p>Return value: locator</p>
-			</td>
-		</tr>
-		<tr id="driver-by-css">
-			<td>
-			<p><code>$driver.By.css(cssName: <var>string</var>)</code></p>
-			</td>
-			<td>
-			<p>Locates an element using a CSS selector.</p>			<p>Return value: locator</p>
-			</td>
-		</tr>
-		<tr id="driver-by-id">
-			<td>
-			<p><code>$driver.By.id(id: <var>string</var>)</code></p>
-			</td>
-			<td>
-			<p>Locates an element by its ID.</p>			<p>Return value: locator</p>
-			</td>
-		</tr>
-		<tr id="driver-by-linkText">
-			<td>
-			<p><code>$driver.By.linkText(linkText: <var>string</var>)</code></p>
-			</td>
-			<td>
-			<p>Locates link elements whose visible text matches the given string.</p>			<p>Return value: locator</p>
-			</td>
-		</tr>
-		<tr id="driver-by-js">
-			<td>
-			<p><code>$driver.By.js(js: <var>string</var>)</code></p>
-			</td>
-			<td>
-			<p>Locates an element by evaluating a JavaScript expression.</p>			<p>Return value: locator</p>
-			</td>
-		</tr>
-		<tr id="driver-by-name">
-			<td>
-			<p><code>$driver.By.name(name: <var>string</var>)</code></p>
-			</td>
-			<td>
-			<p>Locates elements whose name attribute has the given value.</p>			<p>Return value: locator</p>
-			</td>
-		</tr>
-		<tr id="driver-by-partialLinkText">
-			<td>
-			<p><code>$driver.By.partialLinkText(partialLinkText: <var>string</var>)</code></p>
-			</td>
-			<td>
-			<p>Locates link elements whose <a href="#webElement-getText">getText</a> visible contains the given substring.</p>			<p>Return value: locator</p>
-			</td>
-		</tr>
-		<tr id="driver-by-tagName">
-			<td>
-			<p><code>$driver.By.tagName(tagName: <var>string</var>)</code></p>
-			</td>
-			<td>
-			<p>Locates elements with a given tag name. The returned locator is equivalent to using the <code>getElementsByTagName</code> DOM function.</p>			<p>Return value: locator</p>
-			</td>
-		</tr>
-		<tr id="driver-by-xpath">
-			<td>
-			<p><code>$driver.By.xpath(xpath: <var>string</var>)</code></p>
-			</td>
-			<td>
-			<p>Locates elements matching a XPath selector.</p>			<p>Return value: locator</p>
-			</td>
-		</tr>
-	</tbody>
+<thead>
+<tr>
+<th style="width: 400px;">Function</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr id="driver-by-className">
+<td>
+<p><code>$driver.By.className(className: <var>string</var>)</code></p>
+</td>
+<td>
+<p>Locates an element that has a specific class name. The returned locator is equivalent to searching for elements with the CSS selector <code>.clazz</code>.</p><p>Return value: locator</p>
+</td>
+</tr>
+<tr id="driver-by-css">
+<td>
+<p><code>$driver.By.css(cssName: <var>string</var>)</code></p>
+</td>
+<td>
+<p>Locates an element using a CSS selector.</p><p>Return value: locator</p>
+</td>
+</tr>
+<tr id="driver-by-id">
+<td>
+<p><code>$driver.By.id(id: <var>string</var>)</code></p>
+</td>
+<td>
+<p>Locates an element by its ID.</p><p>Return value: locator</p>
+</td>
+</tr>
+<tr id="driver-by-linkText">
+<td>
+<p><code>$driver.By.linkText(linkText: <var>string</var>)</code></p>
+</td>
+<td>
+<p>Locates link elements whose visible text matches the given string.</p><p>Return value: locator</p>
+</td>
+</tr>
+<tr id="driver-by-js">
+<td>
+<p><code>$driver.By.js(js: <var>string</var>)</code></p>
+</td>
+<td>
+<p>Locates an element by evaluating a JavaScript expression.</p><p>Return value: locator</p>
+</td>
+</tr>
+<tr id="driver-by-name">
+<td>
+<p><code>$driver.By.name(name: <var>string</var>)</code></p>
+</td>
+<td>
+<p>Locates elements whose name attribute has the given value.</p><p>Return value: locator</p>
+</td>
+</tr>
+<tr id="driver-by-partialLinkText">
+<td>
+<p><code>$driver.By.partialLinkText(partialLinkText: <var>string</var>)</code></p>
+</td>
+<td>
+<p>Locates link elements whose <a href="#webElement-getText">getText</a> visible contains the given substring.</p><p>Return value: locator</p>
+</td>
+</tr>
+<tr id="driver-by-tagName">
+<td>
+<p><code>$driver.By.tagName(tagName: <var>string</var>)</code></p>
+</td>
+<td>
+<p>Locates elements with a given tag name. The returned locator is equivalent to using the <code>getElementsByTagName</code> DOM function.</p><p>Return value: locator</p>
+</td>
+</tr>
+<tr id="driver-by-xpath">
+<td>
+<p><code>$driver.By.xpath(xpath: <var>string</var>)</code></p>
+</td>
+<td>
+<p>Locates elements matching a XPath selector.</p><p>Return value: locator</p>
+</td>
+</tr>
+</tbody>
 </table><h2 id="webelement">WebElement: Interact with page elements</h2><p>When a function such as <a href="#browser-findElement"><code>$browser.findElement</code></a> or <a href="#browser-waitForAndFindElement"><code>$browser.waitForAndFindElement</code></a> returns a WebElement reference, these functions can be used to interact with that element. For example, you can click on buttons, sent text to form inputs, and get attributes of elements to test.</p><table>
-	<thead>
-		<tr>
-			<th style="width: 400px;">Function</th>
-			<th>Description</th>
-		</tr>
-	</thead>
-	<tbody>
-		<tr id="webElement-click">
-			<td>
-			<p><code>click()</code></p>
-			</td>
-			<td>
-			<p>Clicks on this element.</p>			<p>Return value: self reference</p>
-			</td>
-		</tr>
-		<tr id="webElement-sendKeys">
-			<td>
-			<p><code>sendKeys(var_args: <var>?</var>)</code></p>
-			</td>
-			<td>
-			<p>Schedules a command to type a sequence on the DOM element represented by this instance.</p>			<p>Return value: WebElement</p>
-			</td>
-		</tr>
-		<tr id="webElement-getTagName">
-			<td>
-			<p><code>getTagName()</code></p>
-			</td>
-			<td>
-			<p>Schedules a command to query for the tag/node name of this element.</p>			<p>Return value: WebElement</p>
-			</td>
-		</tr>
-		<tr id="webElement-getCssValue">
-			<td>
-			<p><code>getCssValue(name: <var>string</var>)</code></p>
-			</td>
-			<td>
-			<p>Schedules a command to query for the computed style of the element represented by this instance. If the element inherits the named style from its parent, the parent will be queried for its value. Where possible, color values will be converted to their hex representation (for example, <code>#00ff00</code> instead of <code>rgb(0, 255, 0)</code>).</p>			<p>Return value: promise</p>
-			</td>
-		</tr>
-		<tr id="webElement-getAttribute">
-			<td>
-			<p><code>getAttribute(name: <var>string</var>)</code></p>
-			</td>
-			<td>
-			<p>Schedules a command to query for the value of the given attribute of the element.</p>			<p>Return value: promise</p>
-			</td>
-		</tr>
-		<tr id="webElement-getText">
-			<td>
-			<p><code>getText(name: <var>string</var>)</code></p>
-			</td>
-			<td>
-			<p>Get the visible (not hidden by CSS) <code>innerText</code> of this element, including sub-elements, without any leading or trailing white space.</p>			<p>Return value: promise</p>
-			</td>
-		</tr>
-		<tr id="webElement-getSize">
-			<td>
-			<p><code>getSize()</code></p>
-			</td>
-			<td>
-			<p>Schedules a command to compute the size of this element's bounding box, in pixels.</p>			<p>Return value: promise</p>
-			</td>
-		</tr>
-		<tr id="webElement-getLocation">
-			<td>
-			<p><code>getLocation()</code></p>
-			</td>
-			<td>
-			<p>Schedules a command to compute the location of this element, in page space.</p>			<p>Return value: promise</p>
-			</td>
-		</tr>
-		<tr id="webElement-isEnabled">
-			<td>
-			<p><code>isEnabled()</code></p>
-			</td>
-			<td>
-			<p>Schedules a command to query whether the DOM element represented by this instance is enabled, as dictated by the disabled attribute.</p>			<p>Return value: promise</p>
-			</td>
-		</tr>
-		<tr id="webElement-isSelected">
-			<td>
-			<p><code>isSelected()</code></p>
-			</td>
-			<td>
-			<p>Schedules a command to query whether this element is selected.</p>			<p>Return value: promise</p>
-			</td>
-		</tr>
-		<tr id="webElement-submit">
-			<td>
-			<p><code>submit()</code></p>
-			</td>
-			<td>
-			<p>Schedules a command to submit the form containing this element (or this element if it is a <code>FORM</code> element). This command is a no-op if the element is not contained in a form.</p>			<p>Return value: promise</p>
-			</td>
-		</tr>
-		<tr id="webElement-clear">
-			<td>
-			<p><code>clear()</code></p>
-			</td>
-			<td>
-			<p>Schedules a command to clear the value of this element.</p>			<p>Return value: promise</p>
-			</td>
-		</tr>
-		<tr id="webElement-isDisplayed">
-			<td>
-			<p><code>isDisplayed()</code></p>
-			</td>
-			<td>
-			<p>Schedules a command to test whether this element is currently displayed.</p>			<p>Return value: promise</p>
-			</td>
-		</tr>
-	</tbody>
+<thead>
+<tr>
+<th style="width: 400px;">Function</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr id="webElement-click">
+<td>
+<p><code>click()</code></p>
+</td>
+<td>
+<p>Clicks on this element.</p><p>Return value: self reference</p>
+</td>
+</tr>
+<tr id="webElement-sendKeys">
+<td>
+<p><code>sendKeys(var_args: <var>?</var>)</code></p>
+</td>
+<td>
+<p>Schedules a command to type a sequence on the DOM element represented by this instance.</p><p>Return value: WebElement</p>
+</td>
+</tr>
+<tr id="webElement-getTagName">
+<td>
+<p><code>getTagName()</code></p>
+</td>
+<td>
+<p>Schedules a command to query for the tag/node name of this element.</p><p>Return value: WebElement</p>
+</td>
+</tr>
+<tr id="webElement-getCssValue">
+<td>
+<p><code>getCssValue(name: <var>string</var>)</code></p>
+</td>
+<td>
+<p>Schedules a command to query for the computed style of the element represented by this instance. If the element inherits the named style from its parent, the parent will be queried for its value. Where possible, color values will be converted to their hex representation (for example, <code>#00ff00</code> instead of <code>rgb(0, 255, 0)</code>).</p><p>Return value: promise</p>
+</td>
+</tr>
+<tr id="webElement-getAttribute">
+<td>
+<p><code>getAttribute(name: <var>string</var>)</code></p>
+</td>
+<td>
+<p>Schedules a command to query for the value of the given attribute of the element.</p><p>Return value: promise</p>
+</td>
+</tr>
+<tr id="webElement-getText">
+<td>
+<p><code>getText(name: <var>string</var>)</code></p>
+</td>
+<td>
+<p>Get the visible (not hidden by CSS) <code>innerText</code> of this element, including sub-elements, without any leading or trailing white space.</p><p>Return value: promise</p>
+</td>
+</tr>
+<tr id="webElement-getSize">
+<td>
+<p><code>getSize()</code></p>
+</td>
+<td>
+<p>Schedules a command to compute the size of this element's bounding box, in pixels.</p><p>Return value: promise</p>
+</td>
+</tr>
+<tr id="webElement-getLocation">
+<td>
+<p><code>getLocation()</code></p>
+</td>
+<td>
+<p>Schedules a command to compute the location of this element, in page space.</p><p>Return value: promise</p>
+</td>
+</tr>
+<tr id="webElement-isEnabled">
+<td>
+<p><code>isEnabled()</code></p>
+</td>
+<td>
+<p>Schedules a command to query whether the DOM element represented by this instance is enabled, as dictated by the disabled attribute.</p><p>Return value: promise</p>
+</td>
+</tr>
+<tr id="webElement-isSelected">
+<td>
+<p><code>isSelected()</code></p>
+</td>
+<td>
+<p>Schedules a command to query whether this element is selected.</p><p>Return value: promise</p>
+</td>
+</tr>
+<tr id="webElement-submit">
+<td>
+<p><code>submit()</code></p>
+</td>
+<td>
+<p>Schedules a command to submit the form containing this element (or this element if it is a <code>FORM</code> element). This command is a no-op if the element is not contained in a form.</p><p>Return value: promise</p>
+</td>
+</tr>
+<tr id="webElement-clear">
+<td>
+<p><code>clear()</code></p>
+</td>
+<td>
+<p>Schedules a command to clear the value of this element.</p><p>Return value: promise</p>
+</td>
+</tr>
+<tr id="webElement-isDisplayed">
+<td>
+<p><code>isDisplayed()</code></p>
+</td>
+<td>
+<p>Schedules a command to test whether this element is currently displayed.</p><p>Return value: promise</p>
+</td>
+</tr>
+</tbody>
 </table><h2 id="actionsequence">ActionSequence: Link multiple actions</h2><p>Action sequences can create complex user interactions with your website.</p><ul>
-	<li>To create a new action sequence, use <a href="#browser-actions"><code>$browser.actions()</code></a>.</li>
-	<li>To link multiple actions together into a sequence, include <a href="#actionSequence-perform"><code>perform()</code></a> after each. This executes and then terminates individual sequences, including single-action sequences.</li>
+<li>To create a new action sequence, use <a href="#browser-actions"><code>$browser.actions()</code></a>.</li>
+<li>To link multiple actions together into a sequence, include <a href="#actionSequence-perform"><code>perform()</code></a> after each. This executes and then terminates individual sequences, including single-action sequences.</li>
 </ul><p>The following table contains a list of available actions. For more information, see the <a href="https://github.com/browserstack/selenium-webdriver-nodejs/blob/master/docs/class_webdriver_ActionSequence.html">WebDriver ActionSequence documentation on GitHub</a>.</p><table>
-	<thead>
-		<tr>
-			<th style="width: 400px;">Function</th>
-			<th>Description</th>
-		</tr>
-	</thead>
-	<tbody>
-		<tr id="actionSequence-click">
-			<td>
-			<p><code>click(opt_elementOrButton: <var>?</var>, opt_button: <var>?</var>)</code></p>
-			</td>
-			<td>
-			<p>Clicks a mouse button. If an element is provided, the mouse will first be moved to the center of that element. This is equivalent to <a href="#webElement-click"><code>WebElement.click()</code></a>.</p>			<p>Return value: actionsequence</p>
-			</td>
-		</tr>
-		<tr id="actionSequence-doubleClick">
-			<td>
-			<p><code>doubleClick(opt_elementOrButton: <var>?</var>, opt_button: <var>?</var>)</code></p>
-			</td>
-			<td>
-			<p>Double-clicks a mouse button. If an element is provided, the mouse will first be moved to the center of that element.</p>			<p>Return value: actionsequence</p>
-			</td>
-		</tr>
-		<tr id="actionSequence-dragAndDrop">
-			<td>
-			<p><code>dragAndDrop(element: <var>?</var>, location: <var>?</var>)</code></p>
-			</td>
-			<td>
-			<p>Convenience function for performing a drag and drop maneuver. The target element may be moved to the location of another element, or by an offset (in pixels). The location is an object with two properties <code>x</code> and <code>y</code>: <code>lbracex: <var>x_offset</var>, y: <var>y_offset</var>rbrace</code>.</p>			<p>Return value: actionsequence</p>
-			</td>
-		</tr>
-		<tr id="actionSequence-keyDown">
-			<td>
-			<p><code>keyDown(key: <var>?</var>)</code></p>
-			</td>
-			<td>
-			<p>Performs a modifier key press. Must be one of <code>ALT</code>, <code>CONTROL</code>, <code>SHIFT</code>, <code>COMMAND</code>, or <code>META</code>. The modifier key is not released until <a href="#actionSequence-keyUp"><code>keyUp()</code></a> or <a href="#actionSequence-sendKeys"><code>sendKeys()</code></a> is called. The key press will be targeted at the currently focused element.</p>			<p>Return value: actionsequence</p>
-			</td>
-		</tr>
-		<tr id="actionSequence-keyUp">
-			<td>
-			<p><code>keyUp(key: <var>?</var>)</code></p>
-			</td>
-			<td>
-			<p>Performs a modifier key release. The release is targeted at the currently focused element.</p>			<p>Return value: actionsequence</p>
-			</td>
-		</tr>
-		<tr id="actionSequence-mouseDown">
-			<td>
-			<p><code>mouseDown(opt_elementOrButton: <var>?</var>, opt_button: <var>?</var>)</code></p>
-			</td>
-			<td>
-			<p>Presses a mouse button. The mouse button will not be released until <a href="#actionSequence-mouseUp"><code>mouseUp</code></a> is called, regardless of whether that call is made in this sequence or another. The behavior for out-of-order events (such as calling <code>mouseDown()</code> or <code><a href="#actionSequence-click">click()</a></code> when the button is already held down) is undefined.</p>			<p>Return value: actionsequence</p>
-			</td>
-		</tr>
-		<tr id="actionSequence-mouseUp">
-			<td>
-			<p><code>mouseUp(opt_elementOrButton: <var>?</var>, opt_button: <var>?</var>)</code></p>
-			</td>
-			<td>
-			<p>Releases a mouse button. Behavior is undefined for calling this function without a previous call to <a href="#actionSequence-mouseDown"><code>mouseDown()</code></a>.</p>			<p>Return value: actionsequence</p>
-			</td>
-		</tr>
-		<tr id="actionSequence-mouseMove">
-			<td>
-			<p><code>mouseMove(location: <var>?</var>, offset: <var>?</var>)</code></p>
-			</td>
-			<td>
-			<p>Moves the mouse. The location to move to may be specified in terms of the mouse's current location, an offset relative to the top-left corner of an element, or an element (in which case the middle of the element is used).</p>			<p>Return value: actionsequence</p>
-			</td>
-		</tr>
-		<tr id="actionSequence-perform">
-			<td>
-			<p><code>perform()</code></p>
-			</td>
-			<td>
-			<p>Executes this action sequence.</p>			<p>Return value: promise</p>
-			</td>
-		</tr>
-		<tr id="actionSequence-sendKeys">
-			<td>
-			<p><code>sendKeys(args: <var>?</var>)</code></p>
-			</td>
-			<td>
-			<p>Simulates typing multiple keys. Each modifier key encountered in the sequence will not be released until it is encountered again. All key events will be targeted at the currently focused element. For a full list of supported non-alphanumeric keys, see the <a href="https://seleniumhq.github.io/selenium/docs/api/java/org/openqa/selenium/Keys.html">WebDriver enum key documentation on GitHub</a>.</p>			<p>Return value: actionsequence</p>
-			</td>
-		</tr>
-	</tbody>
+<thead>
+<tr>
+<th style="width: 400px;">Function</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr id="actionSequence-click">
+<td>
+<p><code>click(opt_elementOrButton: <var>?</var>, opt_button: <var>?</var>)</code></p>
+</td>
+<td>
+<p>Clicks a mouse button. If an element is provided, the mouse will first be moved to the center of that element. This is equivalent to <a href="#webElement-click"><code>WebElement.click()</code></a>.</p><p>Return value: actionsequence</p>
+</td>
+</tr>
+<tr id="actionSequence-doubleClick">
+<td>
+<p><code>doubleClick(opt_elementOrButton: <var>?</var>, opt_button: <var>?</var>)</code></p>
+</td>
+<td>
+<p>Double-clicks a mouse button. If an element is provided, the mouse will first be moved to the center of that element.</p><p>Return value: actionsequence</p>
+</td>
+</tr>
+<tr id="actionSequence-dragAndDrop">
+<td>
+<p><code>dragAndDrop(element: <var>?</var>, location: <var>?</var>)</code></p>
+</td>
+<td>
+<p>Convenience function for performing a drag and drop maneuver. The target element may be moved to the location of another element, or by an offset (in pixels). The location is an object with two properties <code>x</code> and <code>y</code>: <code>lbracex: <var>x_offset</var>, y: <var>y_offset</var>rbrace</code>.</p><p>Return value: actionsequence</p>
+</td>
+</tr>
+<tr id="actionSequence-keyDown">
+<td>
+<p><code>keyDown(key: <var>?</var>)</code></p>
+</td>
+<td>
+<p>Performs a modifier key press. Must be one of <code>ALT</code>, <code>CONTROL</code>, <code>SHIFT</code>, <code>COMMAND</code>, or <code>META</code>. The modifier key is not released until <a href="#actionSequence-keyUp"><code>keyUp()</code></a> or <a href="#actionSequence-sendKeys"><code>sendKeys()</code></a> is called. The key press will be targeted at the currently focused element.</p><p>Return value: actionsequence</p>
+</td>
+</tr>
+<tr id="actionSequence-keyUp">
+<td>
+<p><code>keyUp(key: <var>?</var>)</code></p>
+</td>
+<td>
+<p>Performs a modifier key release. The release is targeted at the currently focused element.</p><p>Return value: actionsequence</p>
+</td>
+</tr>
+<tr id="actionSequence-mouseDown">
+<td>
+<p><code>mouseDown(opt_elementOrButton: <var>?</var>, opt_button: <var>?</var>)</code></p>
+</td>
+<td>
+<p>Presses a mouse button. The mouse button will not be released until <a href="#actionSequence-mouseUp"><code>mouseUp</code></a> is called, regardless of whether that call is made in this sequence or another. The behavior for out-of-order events (such as calling <code>mouseDown()</code> or <code><a href="#actionSequence-click">click()</a></code> when the button is already held down) is undefined.</p><p>Return value: actionsequence</p>
+</td>
+</tr>
+<tr id="actionSequence-mouseUp">
+<td>
+<p><code>mouseUp(opt_elementOrButton: <var>?</var>, opt_button: <var>?</var>)</code></p>
+</td>
+<td>
+<p>Releases a mouse button. Behavior is undefined for calling this function without a previous call to <a href="#actionSequence-mouseDown"><code>mouseDown()</code></a>.</p><p>Return value: actionsequence</p>
+</td>
+</tr>
+<tr id="actionSequence-mouseMove">
+<td>
+<p><code>mouseMove(location: <var>?</var>, offset: <var>?</var>)</code></p>
+</td>
+<td>
+<p>Moves the mouse. The location to move to may be specified in terms of the mouse's current location, an offset relative to the top-left corner of an element, or an element (in which case the middle of the element is used).</p><p>Return value: actionsequence</p>
+</td>
+</tr>
+<tr id="actionSequence-perform">
+<td>
+<p><code>perform()</code></p>
+</td>
+<td>
+<p>Executes this action sequence.</p><p>Return value: promise</p>
+</td>
+</tr>
+<tr id="actionSequence-sendKeys">
+<td>
+<p><code>sendKeys(args: <var>?</var>)</code></p>
+</td>
+<td>
+<p>Simulates typing multiple keys. Each modifier key encountered in the sequence will not be released until it is encountered again. All key events will be targeted at the currently focused element. For a full list of supported non-alphanumeric keys, see the <a href="https://seleniumhq.github.io/selenium/docs/api/java/org/openqa/selenium/Keys.html">WebDriver enum key documentation on GitHub</a>.</p><p>Return value: actionsequence</p>
+</td>
+</tr>
+</tbody>
 </table><h2 id="promises">Promises: Link actions into sequences</h2><p>You can also execute functions directly on promises. New Relic Synthetics is a native Node.js environment and uses standard Node.js promises.</p><p>These functions evaluate the status of promises, cancel them, and more. In particular, you can create sequences of actions with the <a href="#promises-then"><code>then()</code></a> function and its siblings, <a href="#promises-thenFinally"><code>finally()</code></a> and <a href="#promises-thenCatch"><code>catch()</code></a>. For more information, see <a href="/docs/synthetics/new-relic-synthetics/scripting-monitors/write-scripted-browsers#sequence">Sequence actions</a>.</p><table>
-	<thead>
-		<tr>
-			<th style="width: 400px;">Function</th>
-			<th>Description</th>
-		</tr>
-	</thead>
-	<tbody>
-		<tr id="promises-isPending">
-			<td>
-			<p><code>isPending()</code></p>
-			</td>
-			<td>
-			<p>Whether this promise's value is still being computed.</p>			<p>Return value: boolean</p>
-			</td>
-		</tr>
-		<tr id="promises-then">
-			<td>
-			<p><code>then(opt_callback: <var>fn</var>(T: <var>?</var>), opt_errback: <var>fn</var>())</code></p>
-			</td>
-			<td>
-			<p>Registers listeners for when this instance is resolved. This is the basic function used to link synchronous actions in your script.</p>			<p>Return value: promise</p>
-			</td>
-		</tr>
-		<tr id="promises-thenFinally">
-			<td>
-			<p><code>finally(callback: <var>fn</var>())</code></p>
-			</td>
-			<td>
-			<p>Registers a listener to invoke when this promise is resolved, regardless of whether the promise's value was successfully computed.</p>			<p>Return value: promise</p>
-			</td>
-		</tr>
-		<tr id="promises-thenCatch">
-			<td>
-			<p><code>catch(callback: <var>fn</var>())</code></p>
-			</td>
-			<td>
-			<p>Registers a listener for when this promise is rejected.</p>			<p>Return value: promise</p>
-			</td>
-		</tr>
-	</tbody>
+<thead>
+<tr>
+<th style="width: 400px;">Function</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr id="promises-isPending">
+<td>
+<p><code>isPending()</code></p>
+</td>
+<td>
+<p>Whether this promise's value is still being computed.</p><p>Return value: boolean</p>
+</td>
+</tr>
+<tr id="promises-then">
+<td>
+<p><code>then(opt_callback: <var>fn</var>(T: <var>?</var>), opt_errback: <var>fn</var>())</code></p>
+</td>
+<td>
+<p>Registers listeners for when this instance is resolved. This is the basic function used to link synchronous actions in your script.</p><p>Return value: promise</p>
+</td>
+</tr>
+<tr id="promises-thenFinally">
+<td>
+<p><code>finally(callback: <var>fn</var>())</code></p>
+</td>
+<td>
+<p>Registers a listener to invoke when this promise is resolved, regardless of whether the promise's value was successfully computed.</p><p>Return value: promise</p>
+</td>
+</tr>
+<tr id="promises-thenCatch">
+<td>
+<p><code>catch(callback: <var>fn</var>())</code></p>
+</td>
+<td>
+<p>Registers a listener for when this promise is rejected.</p><p>Return value: promise</p>
+</td>
+</tr>
+</tbody>
 </table><h2 id="promises">Navigate: Move through browser history</h2><p>The <code>$browser.navigate()</code> function exposes a number of functions that allow you to move backwards and forwards through your browser history, refresh your page and navigate to new pages.</p><table>
-	<thead>
-		<tr>
-			<th style="width: 400px;">Function</th>
-			<th>Description</th>
-		</tr>
-	</thead>
-	<tbody>
-		<tr id="navigate-back">
-			<td>
-			<p><code>back()</code></p>
-			</td>
-			<td>
-			<p>Move back by one step in the browser's history.</p>			<p>Return value: void</p>
-			</td>
-		</tr>
-		<tr id="navigate-forward">
-			<td>
-			<p><code>forward()</code></p>
-			</td>
-			<td>
-			<p>Move forward by one step in the browser's history.</p>			<p>Return value: void</p>
-			</td>
-		</tr>
-		<tr id="navigate-refresh">
-			<td>
-			<p><code>refresh()</code></p>
-			</td>
-			<td>
-			<p>Refresh the current page.</p>			<p>Return value: void</p>
-			</td>
-		</tr>
-		<tr id="navigate-to">
-			<td>
-			<p><code>to(string: <var>url</var>)</code></p>
-			</td>
-			<td>
-			<p>Load a new webpage in the current browser window. <code>$browser.navigate().to()</code> is equivalent to <code><a href="/docs/synthetics/new-relic-synthetics/scripting-monitors/synthetics-scripted-browser-reference#browser-get">$browser.get()</a></code>.</p>			<p>Return value: void</p>
-			</td>
-		</tr>
-	</tbody>
+<thead>
+<tr>
+<th style="width: 400px;">Function</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr id="navigate-back">
+<td>
+<p><code>back()</code></p>
+</td>
+<td>
+<p>Move back by one step in the browser's history.</p><p>Return value: void</p>
+</td>
+</tr>
+<tr id="navigate-forward">
+<td>
+<p><code>forward()</code></p>
+</td>
+<td>
+<p>Move forward by one step in the browser's history.</p><p>Return value: void</p>
+</td>
+</tr>
+<tr id="navigate-refresh">
+<td>
+<p><code>refresh()</code></p>
+</td>
+<td>
+<p>Refresh the current page.</p><p>Return value: void</p>
+</td>
+</tr>
+<tr id="navigate-to">
+<td>
+<p><code>to(string: <var>url</var>)</code></p>
+</td>
+<td>
+<p>Load a new webpage in the current browser window. <code>$browser.navigate().to()</code> is equivalent to <code><a href="/docs/synthetics/new-relic-synthetics/scripting-monitors/synthetics-scripted-browser-reference#browser-get">$browser.get()</a></code>.</p><p>Return value: void</p>
+</td>
+</tr>
+</tbody>
 </table><h2 id="until">Conditions: Pause and wait for conditions</h2><p>Used with <code>$browser.wait</code>, <code>until</code> pauses your script execution until the condition is matched. For more information, see <a href="http://www.seleniumhq.org/docs/04_webdriver_advanced.jsp">Selenium's WebDriver <code>until</code> documentation</a>.</p><p>The following are available functions for <code>$driver.until.<var>Condition</var></code>:</p><table>
-	<thead>
-		<tr>
-			<th style="width: 400px;">Function</th>
-			<th>Description</th>
-		</tr>
-	</thead>
-	<tbody>
-		<tr id="conditions-ableToSwitchToFrame">
-			<td>
-			<p><code>ableToSwitchToFrame(frame: <var>?</var>)</code></p>
-			</td>
-			<td>
-			<p>Creates a condition that will wait until the input driver is able to switch to the designated frame. The target frame may be specified as:</p>			<ul>
-				<li>A numeric index into <code>window.frames</code> for the current frame</li>
-				<li>A <code>webdriver.WebElement</code>, which must reference a <code>FRAME</code> or <code>IFRAME</code> element on the current page</li>
-				<li>A locator which may be used to first locate a <code>FRAME</code> or <code>IFRAME</code> on the current page before attempting to switch to it</li>
-			</ul>			<p>Upon successful resolution of this condition, the driver will be left focused on the new frame.</p>			<p>Return value: condition</p>
-			</td>
-		</tr>
-		<tr id="conditions-alertIsPresent">
-			<td>
-			<p><code>alertIsPresent()</code></p>
-			</td>
-			<td>
-			<p>Creates a condition that waits for an alert to be opened. Upon success, the returned promise will be fulfilled with the handle for the opened alert.</p>			<p>Return value: condition</p>
-			</td>
-		</tr>
-		<tr id="conditions-elementIsDisabled">
-			<td>
-			<p><code>elementIsDisabled(element: $driver.<var>WebElement</var>)</code></p>
-			</td>
-			<td>
-			<p>Creates a condition that will wait for the given element to be disabled.</p>			<p>Return value: condition</p>
-			</td>
-		</tr>
-		<tr id="conditions-elementIsEnabled">
-			<td>
-			<p><code>elementIsEnabled(element: $driver.<var>WebElement</var>)</code></p>
-			</td>
-			<td>
-			<p>Creates a condition that will wait for the given element to be enabled.</p>			<p>Return value: condition</p>
-			</td>
-		</tr>
-		<tr id="conditions-elementIsNotVisible">
-			<td>
-			<p><code>elementIsNotVisible(element: $driver.<var>WebElement</var>)</code></p>
-			</td>
-			<td>
-			<p>Creates a condition that will wait for the given element to be in the DOM, yet not visible to the user.</p>			<p>Return value: condition</p>
-			</td>
-		</tr>
-		<tr id="conditions-elementIsVisible">
-			<td>
-			<p><code>elementIsVisible(element: $driver.<var>WebElement</var>)</code></p>
-			</td>
-			<td>
-			<p>Creates a condition that will wait for the given element to become visible.</p>			<p>Return value: condition</p>
-			</td>
-		</tr>
-		<tr id="conditions-elementIsSelected">
-			<td>
-			<p><code>elementIsSelected(element: $driver.<var>WebElement</var>)</code></p>
-			</td>
-			<td>
-			<p>Creates a condition that will wait for the given element to be selected.</p>			<p>Return value: condition</p>
-			</td>
-		</tr>
-		<tr id="conditions-elementLocated">
-			<td>
-			<p><code>elementLocated(element: $driver.<var>Locator</var>)</code></p>
-			</td>
-			<td>
-			<p>Creates a condition that will loop until an element is found with the given locator.</p>			<p>Return value: condition</p>
-			</td>
-		</tr>
-		<tr id="conditions-elementsLocated">
-			<td>
-			<p><code>elementsLocated(element: $driver.<var>Locator</var>)</code></p>
-			</td>
-			<td>
-			<p>Creates a condition that will loop until at least one element is found with the given locator.</p>			<p>Return value: condition</p>
-			n</td>
-		</tr>
-		<tr id="conditions-elementTextContains">
-			<td>
-			<p><code>elementTextContains(element: $driver.<var>WebElement</var>, substr: <var>string</var>)</code></p>
-			</td>
-			<td>
-			<p>Creates a condition that will wait for the given element's visible text to contain the given substring.</p>			<p>Return value: condition</p>
-			</td>
-		</tr>
-		<tr id="conditions-elementTextIs">
-			<td>
-			<p><code>elementTextIs(element: $driver.<var>WebElement</var>, text: <var>string</var>)</code></p>
-			</td>
-			<td>
-			<p>Case sensitive. Creates a condition that will wait for the given element's visible text to match the given text exactly.</p>			<p>Return value: condition</p>
-			n</td>
-		</tr>
-		<tr id="conditions-elementTextMatches">
-			<td>
-			<p><code>elementTextMatches(element: $driver.<var>WebElement</var>, regex: <var>string</var>)</code></p>
-			</td>
-			<td>
-			<p>Creates a condition that will wait for the given element's visible text to match a regular expression.</p>			<p>Return value: condition</p>
-			</td>
-		</tr>
-		<tr id="conditions-stalenessOf">
-			<td>
-			<p><code>stalenessOf(element: $driver.<var>WebElement</var>)</code></p>
-			</td>
-			<td>
-			<p>Creates a condition that will wait for the given element to become stale. An element is considered stale once it is removed from the DOM or a new page has loaded.</p>			<p>Return value: condition</p>
-			</td>
-		</tr>
-		<tr id="conditions-titleContains">
-			<td>
-			<p><code>titleContains(substr: <var>string</var>)</code></p>
-			</td>
-			<td>
-			<p>Creates a condition that will wait for the current page's title to contain the given substring.</p>			<p>Return value: condition</p>
-			</td>
-		</tr>
-		<tr id="conditions-titleIs">
-			<td>
-			<p><code>titleIs(title: <var>string</var>)</code></p>
-			</td>
-			<td>
-			<p>Creates a condition that will wait for the current page's title to match the given value.</p>			<p>Return value: condition</p>
-			</td>
-		</tr>
-		<tr id="conditions-titleMatches">
-			<td>
-			<p><code>titleMatches(regex: <var>string</var>)</code></p>
-			</td>
-			<td>
-			<p>Creates a condition that will wait for the current page's title to match the given regular expression.</p>			<p>Return value: condition</p>
-			</td>
-		</tr>
-	</tbody>
+<thead>
+<tr>
+<th style="width: 400px;">Function</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr id="conditions-ableToSwitchToFrame">
+<td>
+<p><code>ableToSwitchToFrame(frame: <var>?</var>)</code></p>
+</td>
+<td>
+<p>Creates a condition that will wait until the input driver is able to switch to the designated frame. The target frame may be specified as:</p><ul>
+<li>A numeric index into <code>window.frames</code> for the current frame</li>
+<li>A <code>webdriver.WebElement</code>, which must reference a <code>FRAME</code> or <code>IFRAME</code> element on the current page</li>
+<li>A locator which may be used to first locate a <code>FRAME</code> or <code>IFRAME</code> on the current page before attempting to switch to it</li>
+</ul><p>Upon successful resolution of this condition, the driver will be left focused on the new frame.</p><p>Return value: condition</p>
+</td>
+</tr>
+<tr id="conditions-alertIsPresent">
+<td>
+<p><code>alertIsPresent()</code></p>
+</td>
+<td>
+<p>Creates a condition that waits for an alert to be opened. Upon success, the returned promise will be fulfilled with the handle for the opened alert.</p><p>Return value: condition</p>
+</td>
+</tr>
+<tr id="conditions-elementIsDisabled">
+<td>
+<p><code>elementIsDisabled(element: $driver.<var>WebElement</var>)</code></p>
+</td>
+<td>
+<p>Creates a condition that will wait for the given element to be disabled.</p><p>Return value: condition</p>
+</td>
+</tr>
+<tr id="conditions-elementIsEnabled">
+<td>
+<p><code>elementIsEnabled(element: $driver.<var>WebElement</var>)</code></p>
+</td>
+<td>
+<p>Creates a condition that will wait for the given element to be enabled.</p><p>Return value: condition</p>
+</td>
+</tr>
+<tr id="conditions-elementIsNotVisible">
+<td>
+<p><code>elementIsNotVisible(element: $driver.<var>WebElement</var>)</code></p>
+</td>
+<td>
+<p>Creates a condition that will wait for the given element to be in the DOM, yet not visible to the user.</p><p>Return value: condition</p>
+</td>
+</tr>
+<tr id="conditions-elementIsVisible">
+<td>
+<p><code>elementIsVisible(element: $driver.<var>WebElement</var>)</code></p>
+</td>
+<td>
+<p>Creates a condition that will wait for the given element to become visible.</p><p>Return value: condition</p>
+</td>
+</tr>
+<tr id="conditions-elementIsSelected">
+<td>
+<p><code>elementIsSelected(element: $driver.<var>WebElement</var>)</code></p>
+</td>
+<td>
+<p>Creates a condition that will wait for the given element to be selected.</p><p>Return value: condition</p>
+</td>
+</tr>
+<tr id="conditions-elementLocated">
+<td>
+<p><code>elementLocated(element: $driver.<var>Locator</var>)</code></p>
+</td>
+<td>
+<p>Creates a condition that will loop until an element is found with the given locator.</p><p>Return value: condition</p>
+</td>
+</tr>
+<tr id="conditions-elementsLocated">
+<td>
+<p><code>elementsLocated(element: $driver.<var>Locator</var>)</code></p>
+</td>
+<td>
+<p>Creates a condition that will loop until at least one element is found with the given locator.</p><p>Return value: condition</p>
+n</td>
+</tr>
+<tr id="conditions-elementTextContains">
+<td>
+<p><code>elementTextContains(element: $driver.<var>WebElement</var>, substr: <var>string</var>)</code></p>
+</td>
+<td>
+<p>Creates a condition that will wait for the given element's visible text to contain the given substring.</p><p>Return value: condition</p>
+</td>
+</tr>
+<tr id="conditions-elementTextIs">
+<td>
+<p><code>elementTextIs(element: $driver.<var>WebElement</var>, text: <var>string</var>)</code></p>
+</td>
+<td>
+<p>Case sensitive. Creates a condition that will wait for the given element's visible text to match the given text exactly.</p><p>Return value: condition</p>
+n</td>
+</tr>
+<tr id="conditions-elementTextMatches">
+<td>
+<p><code>elementTextMatches(element: $driver.<var>WebElement</var>, regex: <var>string</var>)</code></p>
+</td>
+<td>
+<p>Creates a condition that will wait for the given element's visible text to match a regular expression.</p><p>Return value: condition</p>
+</td>
+</tr>
+<tr id="conditions-stalenessOf">
+<td>
+<p><code>stalenessOf(element: $driver.<var>WebElement</var>)</code></p>
+</td>
+<td>
+<p>Creates a condition that will wait for the given element to become stale. An element is considered stale once it is removed from the DOM or a new page has loaded.</p><p>Return value: condition</p>
+</td>
+</tr>
+<tr id="conditions-titleContains">
+<td>
+<p><code>titleContains(substr: <var>string</var>)</code></p>
+</td>
+<td>
+<p>Creates a condition that will wait for the current page's title to contain the given substring.</p><p>Return value: condition</p>
+</td>
+</tr>
+<tr id="conditions-titleIs">
+<td>
+<p><code>titleIs(title: <var>string</var>)</code></p>
+</td>
+<td>
+<p>Creates a condition that will wait for the current page's title to match the given value.</p><p>Return value: condition</p>
+</td>
+</tr>
+<tr id="conditions-titleMatches">
+<td>
+<p><code>titleMatches(regex: <var>string</var>)</code></p>
+</td>
+<td>
+<p>Creates a condition that will wait for the current page's title to match the given regular expression.</p><p>Return value: condition</p>
+</td>
+</tr>
+</tbody>
 </table><h2 id="more_help">For more help</h2><p>Additional documentation resources include:</p><ul>
-	<li><a href="/docs/synthetics/new-relic-synthetics/scripting-monitors/write-scripted-browsers">Write scripted browsers</a> (how to build WebDriverJS scripts for multi-step monitoring)</li>
-	<li><a href="/docs/synthetics/new-relic-synthetics/scripting-monitors/scripted-browser-examples">Scripted browser examples</a> (example code for scripted browsers, including comments, with examples such as searching a website and waiting for results to load)</li>
-	<li><a href="https://discuss.newrelic.com/tags/c/support-products-agents/synthetics/synthetics-script">Script repository in New Relic's Explorers Hub</a> (example scripts tagged <code>synthetics-script</code>, created and shared by our online technical community)</li>
+<li><a href="/docs/synthetics/new-relic-synthetics/scripting-monitors/write-scripted-browsers">Write scripted browsers</a> (how to build WebDriverJS scripts for multi-step monitoring)</li>
+<li><a href="/docs/synthetics/new-relic-synthetics/scripting-monitors/scripted-browser-examples">Scripted browser examples</a> (example code for scripted browsers, including comments, with examples such as searching a website and waiting for results to load)</li>
+<li><a href="https://discuss.newrelic.com/tags/c/support-products-agents/synthetics/synthetics-script">Script repository in New Relic's Explorers Hub</a> (example scripts tagged <code>synthetics-script</code>, created and shared by our online technical community)</li>
 </ul>
