@@ -9,9 +9,13 @@ import './Sidebar.scss';
 // recursively create navigation
 const renderNav = (page, index) => (
   <li key={index}>
-    <Link to={page.url} className={cx({ 'is-active': page.active })}>
-      {page.displayName}
-    </Link>
+    {page.url ? (
+      <Link to={page.url} className={cx({ 'is-active': page.active })}>
+        {page.displayName}
+      </Link>
+    ) : (
+      <div>{page.displayName}</div>
+    )}
     {page.children && <ul>{page.children.map(renderNav)}</ul>}
   </li>
 );
@@ -19,7 +23,7 @@ const renderNav = (page, index) => (
 const Sidebar = ({ pages, isOpen, toggle }) => (
   <aside className={cx('Sidebar', { 'is-open': isOpen })}>
     <div className="Sidebar-top">
-      <h3>Pages</h3>
+      <h3>Site Menu</h3>
       <button
         aria-expanded={isOpen}
         className="Sidebar-toggle"

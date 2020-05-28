@@ -1,0 +1,50 @@
+[
+  {
+    "displayName": "All Docs",
+    "url": "/docs"
+  },
+  {
+    "displayName": "Agents",
+    "url": "/docs/agents",
+    "children": [
+      {
+        "displayName": "Node",
+        "url": "/docs/agents/node-agent",
+        "children": []
+      },
+      {
+        "displayName": "PHP",
+        "url": "/docs/agents/php-agent",
+        "children": []
+      }
+    ]
+  },
+  {
+    "displayName": "Browser",
+    "url": "/docs/browser"
+  },
+  {
+    "displayName": "Infrastructure",
+    "url": "/docs/infrastructure"
+  },
+  {
+    "displayName": "Release Notes (Agents)",
+    "url": "/docs/release-notes-agents"
+  },
+  {
+    "displayName": "Release Notes (Platform)",
+    "url": "/docs/release-notes-platform"
+  },
+  {
+    "displayName": "Synthetics",
+    "url": "/docs/synthetics"
+  },
+  {
+    "displayName": "Attribute Definitions",
+    "url": "/attribute-definitions"
+  },
+  {
+    "displayName": "NR1 Announcements",
+    "url": "/nr1-announcements"
+  }
+]
