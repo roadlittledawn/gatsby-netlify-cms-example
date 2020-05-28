@@ -1,7 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { graphql } from 'gatsby';
 import PropTypes from 'prop-types';
 import Layout from '../components/Layout';
+import Sidebar from '../components/Sidebar';
+import pages from '../data/primary-nav.json';
 import BreadcrumbBar from '../components/BreadcrumbBar';
 import Container from '../components/Container';
 import { MDXRenderer } from 'gatsby-plugin-mdx';
@@ -12,6 +14,7 @@ export default function BasicDocPageTemplate({
 }) {
   const { mdx } = data; // data.mdx holds your post data
   const { frontmatter, body } = mdx;
+  const [isOpen, setIsOpen] = useState(false);
 
   // TODO use graphql to fetch these
   const crumbs = [
@@ -22,8 +25,13 @@ export default function BasicDocPageTemplate({
   return (
     <Layout>
       {/* <BreadcrumbBar crumbs={crumbs} /> */}
-      <Container>
-        <div className="basicDocPageTemplate-container">
+      <Container className="ReferenceTemplate">
+        <Sidebar
+          pages={pages}
+          isOpen={isOpen}
+          toggle={() => setIsOpen(!isOpen)}
+        />
+        <div className="ReferenceTemplate-content">
           <div>
             <h1>{frontmatter.title}</h1>
             <div className="guideTemplate-content">
