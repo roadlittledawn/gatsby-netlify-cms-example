@@ -15,7 +15,7 @@ metaDescription: "For configuration of New Relic's node.js agent for linux read 
 <p>You can tailor New Relic's Node.js agent to your app's requirements by editing your <code>newrelic.js</code> config file or by setting an environment variable. The config file resides in the root directory of your app. You can also configure a few options from the New Relic UI, or use New Relic's <a href="/docs/agents/nodejs-agent/api-guides/nodejs-agent-api">Node.js agent API</a>.</p><div class="callout-important">
 <p>The <a href="#license"><code>license_key</code></a> setting is required. New Relic <b>highly recommends</b> setting the <a href="#app_name"><code>app_name</code></a> so that your app has a <a href="/docs/apm/new-relic-apm/installation-configuration/name-your-application">meaningful name</a> instead of the default <code>My Application</code>.</p>
 </div><h2 id="methods-and-precedence">Configuration methods and precedence</h2><p id="hierarchy">The primary method to configure the Node.js agent is the agent configuration file (<code>newrelic.js</code>). You can also configure most settings with <a href="#environment">environment variables</a>. You can also adjust some settings with <a href="#server-side">server-side configuration</a>.</p><p>The Node.js agent uses this order of precedence for configuration methods:</p><div class="dnd-atom-wrapper type-image context-inline_image" contenteditable="false">
-<div class="dnd-drop-wrapper"><!-- scald=7641:inline_image {"link":""} --><img alt="Node.js agent configuration precedence" height="358" src="https://docs-dev.newrelic.com/sites/default/files/styles/inline_660px/public/thumbnails/image/nodejs-configuration-precedence.png?itok=T2PLMciG" title="Node.js agent configuration precedence" typeof="foaf:Image" width="583" /><!-- END scald=7641 --></div><div class="dnd-legend-wrapper" contenteditable="true">
+<div class="dnd-drop-wrapper"></div><div class="dnd-legend-wrapper" contenteditable="true">
 <div class="meta"><b>Node.js configuration hierarchy:</b> Server-side configuration settings override environment variables. Environment variables override the agent config file. The config file overrides the agent defaults.</div>
 </div>
 </div><p>Here are detailed descriptions of each configuration method:</p><dl class="clamshell-list">
@@ -25,17 +25,15 @@ metaDescription: "For configuration of New Relic's node.js agent for linux read 
 	</dd>
 	<dt class="freq-link" id="environment">Environment variables</dt>
 	<dd>
-	<p>Most configuration settings in <code>newrelic.js</code> have equivalent environment variables. These are useful, for example, if your agent runs in a PaaS enviornment such as Heroku or Microsoft Azure. Node.js agent environment variables always start with <code>NEW_RELIC_</code>.</p>
-	<p>Where available, these environment variables are documented below under individual config options as the <b>Environ variable</b>. There are also two rarely used settings that can <a href="#environment-variable-overrides">only be configured via environment variables</a>.</p>
+	<p>Most configuration settings in <code>newrelic.js</code> have equivalent environment variables. These are useful, for example, if your agent runs in a PaaS enviornment such as Heroku or Microsoft Azure. Node.js agent environment variables always start with <code>NEW_RELIC_</code>.</p>	<p>Where available, these environment variables are documented below under individual config options as the <b>Environ variable</b>. There are also two rarely used settings that can <a href="#environment-variable-overrides">only be configured via environment variables</a>.</p>
 	</dd>
 	<dt class="freq-link" id="server-side">Server-side configuration</dt>
 	<dd>
 	<div class="callout-permissions">
 	<p><b>Owner or Admins</b></p>
-	</div>
-	<p id="ui_settings">Owners and Admins can view and configure a few settings <a href="/docs/agents/manage-apm-agents/configuration/server-side-agent-configuration">directly in the New Relic UI</a>. Where available, the UI labels for server-side config are listed in this document under individual config options as the <b>Server-side label</b>.</p>
+	</div>	<p id="ui_settings">Owners and Admins can view and configure a few settings <a href="/docs/agents/manage-apm-agents/configuration/server-side-agent-configuration">directly in the New Relic UI</a>. Where available, the UI labels for server-side config are listed in this document under individual config options as the <b>Server-side label</b>.</p>
 	</dd>
-</dl><h2 id="exports_config">Exports variables</h2><p>This section defines the Node.js agent variables in the order they typically appear in the <code>exports.config = {</code> section of your app's <code>newrelic.js</code> configuration file.</p><dl class="clamshell-list">
+</dl><h2 id="exports_config">Exports variables</h2><p>This section defines the Node.js agent variables in the order they typically appear in the <code>exports.config = </code> section of your app's <code>newrelic.js</code> configuration file.</p><dl class="clamshell-list">
 	<dt id="app_name">app_name <span style="color: red">(HIGHLY RECOMMENDED)</span></dt>
 	<dd>
 	<table class="specs">
@@ -53,10 +51,7 @@ metaDescription: "For configuration of New Relic's node.js agent for linux read 
 				<td><code>NEW_RELIC_APP_NAME</code></td>
 			</tr>
 		</tbody>
-	</table>
-	<p>The <a href="/docs/apm/new-relic-apm/installation-configuration/name-your-application">name New Relic uses to identify your app</a>. For example, <code>app_name: ['<var>MyNodeApp</var>']</code>. To <a href="/docs/apm/new-relic-apm/installation-configuration/use-multiple-names-app">use multiple names for your app</a>, specify a comma-delimited list of names.</p>
-	<p>Data for all applications with the same name will be merged in the New Relic UI, so set this carefully. New Relic <b>highly recommends</b> that you replace the default name with a descriptive name to avoid confusion and unintended aggregation of data.</p>
-	<div class="callout-tip">
+	</table>	<p>The <a href="/docs/apm/new-relic-apm/installation-configuration/name-your-application">name New Relic uses to identify your app</a>. For example, <code>app_name: ['<var>MyNodeApp</var>']</code>. To <a href="/docs/apm/new-relic-apm/installation-configuration/use-multiple-names-app">use multiple names for your app</a>, specify a comma-delimited list of names.</p>	<p>Data for all applications with the same name will be merged in the New Relic UI, so set this carefully. New Relic <b>highly recommends</b> that you replace the default name with a descriptive name to avoid confusion and unintended aggregation of data.</p>	<div class="callout-tip">
 	<p>For <a href="/docs/agents/nodejs-agent/hosting-services/nodejs-agent-microsoft-azure">Azure users</a>, the Node.js agent will use <code>APP_POOL_ID</code> if it is set, so you can use the name you chose for your Azure Web Server without setting it twice.</p>
 	</div>
 	</dd>
@@ -77,8 +72,7 @@ metaDescription: "For configuration of New Relic's node.js agent for linux read 
 				<td><code>NEW_RELIC_LICENSE_KEY</code></td>
 			</tr>
 		</tbody>
-	</table>
-	<p>This setting is required. Your New Relic <a href="/docs/accounts-partnerships/accounts/account-setup/license-key">license key</a>. For example, <code>license_key: '<var>40HexadecimalCharacters</var>'</code>.</p>
+	</table>	<p>This setting is required. Your New Relic <a href="/docs/accounts-partnerships/accounts/account-setup/license-key">license key</a>. For example, <code>license_key: '<var>40HexadecimalCharacters</var>'</code>.</p>
 	</dd>
 	<dt id="agent-enabled">agent_enabled</dt>
 	<dd>
@@ -97,13 +91,11 @@ metaDescription: "For configuration of New Relic's node.js agent for linux read 
 				<td><code>NEW_RELIC_ENABLED</code></td>
 			</tr>
 		</tbody>
-	</table>
-	<p>Set to <code>false</code> to stop the agent from starting up. This is useful when debugging your code requires temporarily disabling the agent. It prevents the agent from bootstrapping its instrumentation or setting up all its pieces, which prevents the agent from starting up and connecting to New Relic's servers.</p>
+	</table>	<p>Set to <code>false</code> to stop the agent from starting up. This is useful when debugging your code requires temporarily disabling the agent. It prevents the agent from bootstrapping its instrumentation or setting up all its pieces, which prevents the agent from starting up and connecting to New Relic's servers.</p>
 	</dd>
 	<dt id="allow_all_headers">allow_all_headers</dt>
 	<dd>
-	<p>If <code>true</code>, enables capture of all HTTP headers, except for those filtered by <code>exclude</code> rules. If <code>false</code>, collected headers are limited to those defined in <a href="/docs/agents/nodejs-agent/installation-configuration/nodejs-agent-attributes">Node.js agent attributes</a>.</p>
-	<table class="specs">
+	<p>If <code>true</code>, enables capture of all HTTP headers, except for those filtered by <code>exclude</code> rules. If <code>false</code>, collected headers are limited to those defined in <a href="/docs/agents/nodejs-agent/installation-configuration/nodejs-agent-attributes">Node.js agent attributes</a>.</p>	<table class="specs">
 		<tbody>
 			<tr>
 				<th>Type</th>
@@ -114,12 +106,11 @@ metaDescription: "For configuration of New Relic's node.js agent for linux read 
 				<td><code>false</code></td>
 			</tr>
 		</tbody>
-	</table>
-	<div class="callout-caution">
+	</table>	<div class="callout-caution">
 	<p>Any header-related include/exclude rules must be in camelCase form to be filtered.</p>
 	</div>
 	</dd>
-	<dt .apdex_t="" id="apdex">apdex_t <span style="color: red">(DEPRECATED)</span></dt>
+	<dt id="apdex">apdex_t <span style="color: red">(DEPRECATED)</span></dt>
 	<dd>
 	<table class="specs">
 		<tbody>
@@ -136,8 +127,7 @@ metaDescription: "For configuration of New Relic's node.js agent for linux read 
 				<td><code>Apdex T</code></td>
 			</tr>
 		</tbody>
-	</table>
-	<p>Set your Apdex T <a href="https://docs.newrelic.com/docs/apm/new-relic-apm/apdex/changing-your-apdex-settings">via the New Relic UI</a>.</p>
+	</table>	<p>Set your Apdex T <a href="https://docs.newrelic.com/docs/apm/new-relic-apm/apdex/changing-your-apdex-settings">via the New Relic UI</a>.</p>
 	</dd>
 	<dt id="certificates">certificates</dt>
 	<dd>
@@ -152,12 +142,9 @@ metaDescription: "For configuration of New Relic's node.js agent for linux read 
 				<td>(none)</td>
 			</tr>
 		</tbody>
-	</table>
-	<p>Additional certificates to trust for SSL connections, specified as an array of strings in PEM format. This affects both connections to an HTTPS proxy and connections to New Relic.</p>
-	<div class="callout-tip">
-	<p>You can also configure the agent to read its certificates from a file:</p>
-	<pre>
-certificates: [ fs.readFileSync('<var>myca</var>.crt', {encoding: '<var>utf8</var>'}) ]</pre>
+	</table>	<p>Additional certificates to trust for SSL connections, specified as an array of strings in PEM format. This affects both connections to an HTTPS proxy and connections to New Relic.</p>	<div class="callout-tip">
+	<p>You can also configure the agent to read its certificates from a file:</p>	<pre>
+certificates: [ fs.readFileSync('<var>myca</var>.crt', encoding: '<var>utf8</var>') ]</pre>
 	</div>
 	</dd>
 	<dt id="high_security">high_security</dt>
@@ -177,8 +164,7 @@ certificates: [ fs.readFileSync('<var>myca</var>.crt', {encoding: '<var>utf8</va
 				<td><code>NEW_RELIC_HIGH_SECURITY</code></td>
 			</tr>
 		</tbody>
-	</table>
-	<p>When set to <code>true</code>, enables <a href="/docs/accounts-partnerships/accounts/security/high-security#version2description">high security v2</a>. You must also enable the <a href="#ssl"><code>ssl</code></a> setting and <a href="/docs/accounts-partnerships/accounts/security/high-security#version2enabled">enable high security in the UI</a>.</p>
+	</table>	<p>When set to <code>true</code>, enables <a href="/docs/accounts-partnerships/accounts/security/high-security#version2description">high security v2</a>. You must also enable the <a href="#ssl"><code>ssl</code></a> setting and <a href="/docs/accounts-partnerships/accounts/security/high-security#version2enabled">enable high security in the UI</a>.</p>
 	</dd>
 	<dt id="host">host</dt>
 	<dd>
@@ -197,16 +183,13 @@ certificates: [ fs.readFileSync('<var>myca</var>.crt', {encoding: '<var>utf8</va
 				<td><code>NEW_RELIC_HOST</code></td>
 			</tr>
 		</tbody>
-	</table>
-	<div class="callout-important">
+	</table>	<div class="callout-important">
 	<p>Do not edit this value unless New Relic Support asks you to change it.</p>
-	</div>
-	<p>Hostname for the <a href="/docs/accounts-partnerships/education/getting-started-new-relic/glossary#collector">New Relic collector</a> to connect to the Internet; for example, <code>host: 'collector.newrelic.com'</code>.</p>
+	</div>	<p>Hostname for the <a href="/docs/accounts-partnerships/education/getting-started-new-relic/glossary#collector">New Relic collector</a> to connect to the Internet; for example, <code>host: 'collector.newrelic.com'</code>.</p>
 	</dd>
 	<dt id="labels">labels</dt>
 	<dd>
-	<p>Use <a href="/docs/apm/new-relic-apm/maintenance/labels-categories-organize-your-apps-servers">labels and categories to organize your apps</a>. Specify your labels as objects or a semicolon-delimited string of colon-separated pairs (for example, <code><var>Server</var>:<var>One</var>;<var>Data Center</var>:<var>Primary</var></code>).</p>
-	<table class="specs">
+	<p>Use <a href="/docs/apm/new-relic-apm/maintenance/labels-categories-organize-your-apps-servers">labels and categories to organize your apps</a>. Specify your labels as objects or a semicolon-delimited string of colon-separated pairs (for example, <code><var>Server</var>:<var>One</var>;<var>Data Center</var>:<var>Primary</var></code>).</p>	<table class="specs">
 		<tbody>
 			<tr>
 				<th>Type</th>
@@ -240,11 +223,9 @@ certificates: [ fs.readFileSync('<var>myca</var>.crt', {encoding: '<var>utf8</va
 				<td><code>NEW_RELIC_PORT</code></td>
 			</tr>
 		</tbody>
-	</table>
-	<div class="callout-important">
+	</table>	<div class="callout-important">
 	<p>Do not edit this value unless New Relic Support asks you to change it.</p>
-	</div>
-	<p>Port number to connect to the New Relic collector; for example, <code>port: 443</code>.</p>
+	</div>	<p>Port number to connect to the New Relic collector; for example, <code>port: 443</code>.</p>
 	</dd>
 	<dt id="proxy">proxy</dt>
 	<dd>
@@ -364,7 +345,7 @@ certificates: [ fs.readFileSync('<var>myca</var>.crt', {encoding: '<var>utf8</va
 	<p>By default the agent is compliant with <a href="/docs/accounts-partnerships/accounts/security/high-security#version1descritpion">high security v1</a>. However, if you disable <code>ssl</code> and enable <a href="#params"><code>capture_params</code></a>, the agent can exit high security mode, which prevents the agent from connecting with high-security accounts. If high security mode fails, the log files show an error message such as <code>ERROR Account Security Violation</code>.</p>
 	</div>
 	</dd>
-</dl><h2 id="logging_config">Logging variables</h2><p>This section defines the Node.js agent variables in the order they typically appear in the <code>logging: {</code> section of your app's <code>newrelic.js</code> configuration file.</p><dl class="clamshell-list">
+</dl><h2 id="logging_config">Logging variables</h2><p>This section defines the Node.js agent variables in the order they typically appear in the <code>logging: </code> section of your app's <code>newrelic.js</code> configuration file.</p><dl class="clamshell-list">
 	<dt id="log-enabled">enabled</dt>
 	<dd>
 	<table class="specs">
@@ -427,7 +408,7 @@ certificates: [ fs.readFileSync('<var>myca</var>.crt', {encoding: '<var>utf8</va
 		<li>To write all logging to <b>stderr</b>, set this to <code>stderr</code>.</li>
 	</ul>
 	</dd>
-</dl><h2 id="audit_log">Audit logging</h2><p>This section defines the Node.js agent variables in the order they typically appear in the <code>audit_log: {</code> section of your app's <code>newrelic.js</code> configuration file.</p><dl class="clamshell-list">
+</dl><h2 id="audit_log">Audit logging</h2><p>This section defines the Node.js agent variables in the order they typically appear in the <code>audit_log: </code> section of your app's <code>newrelic.js</code> configuration file.</p><dl class="clamshell-list">
 	<dt id="audit_log-enabled">enabled</dt>
 	<dd>
 	<table class="specs">
@@ -542,7 +523,7 @@ certificates: [ fs.readFileSync('<var>myca</var>.crt', {encoding: '<var>utf8</va
 		</tbody>
 	</table>	<p>This option enables <a href="/docs/agents/nodejs-agent/supported-features/nodejs-agent-api#noticeError"><code>newrelic.noticeError</code></a>.</p>
 	</dd>
-</dl><h2 id="node-js-attributes">Attributes</h2><p>This section defines the variables for <a href="/docs/agents/nodejs-agent/attributes/nodejs-agent-attributes">Node.js agent attributes</a> in the order they typically appear in the <code>attributes: {</code> section of your app's <code>newrelic.js</code> configuration file.</p><div class="callout-caution">
+</dl><h2 id="node-js-attributes">Attributes</h2><p>This section defines the variables for <a href="/docs/agents/nodejs-agent/attributes/nodejs-agent-attributes">Node.js agent attributes</a> in the order they typically appear in the <code>attributes: </code> section of your app's <code>newrelic.js</code> configuration file.</p><div class="callout-caution">
 <p>Any header-related include/exclude rules must be in camelCase form to be filtered.</p>
 </div><dl class="clamshell-list">
 	<dt id="attributes_enabled">enabled</dt>
@@ -621,7 +602,7 @@ certificates: [ fs.readFileSync('<var>myca</var>.crt', {encoding: '<var>utf8</va
 		</tbody>
 	</table>	<p>When <code>true</code>, patterns may be added to the <a href="/docs/agents/nodejs-agent/attributes/nodejs-agent-attributes#cfg-attributes-include"><code>attributes.include</code></a> list.</p>
 	</dd>
-</dl><h2 id="error_config">Error collector variables</h2><p>You can <a href="/docs/agents/manage-apm-agents/agent-data/manage-errors-apm-collect-ignore-mark-expected">manage how error are handled</a> in New Relic APM. This section defines the Node.js agent variables in the order they typically appear in the <code>error_collector: {</code> section of your app's <code>newrelic.js</code> configuration file.</p><dl class="clamshell-list">
+</dl><h2 id="error_config">Error collector variables</h2><p>You can <a href="/docs/agents/manage-apm-agents/agent-data/manage-errors-apm-collect-ignore-mark-expected">manage how error are handled</a> in New Relic APM. This section defines the Node.js agent variables in the order they typically appear in the <code>error_collector: </code> section of your app's <code>newrelic.js</code> configuration file.</p><dl class="clamshell-list">
 	<dt id="error_collector">enabled</dt>
 	<dd>
 	<table class="specs">
@@ -686,24 +667,24 @@ certificates: [ fs.readFileSync('<var>myca</var>.crt', {encoding: '<var>utf8</va
 				<th><a href="#environment-variables">Environ variable</a></th>
 				<td><code>NEW_RELIC_ERROR_COLLECTOR_IGNORE_ERRORS</code></td>
 			</tr>
-			<!-- 
+			 
 			<tr>
 				<th><a href="#environment-variables">Environ variable</a></th>
 				<td><code>NEW_RELIC_ERROR_COLLECTOR_IGNORE_ERROR_CODES</code></td>
 			</tr>
- --><!-- 
+  
 			<tr>
 				<th><a href="#server-side">Server-side label</a></th>
 				<td><code>Ignore these status codes</code></td>
 			</tr>
- -->
+ 
 		</tbody>
 	</table>
-	<!-- <p>Comma-delimited list of HTTP status codes for the error collector to ignore.</p> -->	<p>Comma-delimited list of javascript error types/classes for the error collector to ignore.</p>	<p>The following configuration</p>	<pre>
+		<p>Comma-delimited list of javascript error types/classes for the error collector to ignore.</p>	<p>The following configuration</p>	<pre>
     /* ... */
-    error_collector: {
+    error_collector: 
         ignore_classes: ["ReferenceError"]
-    }    
+        
     /* ... */
 </pre>	<p>Would ignore all reference errors.</p>	<div class="callout-caution">
 	<p>Errors recorded using <a href="/docs/agents/nodejs-agent/supported-features/nodejs-agent-api#noticeError">newrelic.noticeError</a> do not obey this configuration value.</p>
@@ -719,28 +700,28 @@ certificates: [ fs.readFileSync('<var>myca</var>.crt', {encoding: '<var>utf8</va
 			</tr>
 			<tr>
 				<th>Default</th>
-				<td><code>{}</code></td>
+				<td><code></code></td>
 			</tr>
-			<!-- 
+			 
 			<tr>
 				<th><a href="#environment-variables">Environ variable</a></th>
 				<td><code>NEW_RELIC_ERROR_COLLECTOR_IGNORE_ERROR_CODES</code></td>
 			</tr>
- --><!-- 
+  
 			<tr>
 				<th><a href="#server-side">Server-side label</a></th>
 				<td><code>Ignore these status codes</code></td>
 			</tr>
- -->
+ 
 		</tbody>
 	</table>
-	<!-- <p>Comma-delimited list of HTTP status codes for the error collector to ignore.</p> -->	<p>A javascript object describing a list of javascript classes tied to javascript error messages for the collector to ignore. The following configuration.</p>	<pre>
+		<p>A javascript object describing a list of javascript classes tied to javascript error messages for the collector to ignore. The following configuration.</p>	<pre>
     /* ... */
-    error_collector: {
+    error_collector: 
         /* ... */
-        ignore_messages: {"Error":["Undefined"],"Error":["Out of time"]}
+        ignore_messages: "Error":["Undefined"],"Error":["Out of time"]
         /* ... */
-    }    
+        
     /* ... */
 </pre>	<p>Would ignore all errors of type Error, with the exact (case-sensative) message strings of "Undefined" and "Out of time".</p>	<div class="callout-caution">
 	<p>Errors recorded using <a href="/docs/agents/nodejs-agent/supported-features/nodejs-agent-api#noticeError">newrelic.noticeError</a> do not obey this configuration value.</p>
@@ -762,20 +743,20 @@ certificates: [ fs.readFileSync('<var>myca</var>.crt', {encoding: '<var>utf8</va
 				<th><a href="#environment-variables">Environ variable</a></th>
 				<td><code>NEW_RELIC_ERROR_COLLECTOR_EXPECTED_ERROR_CODES</code></td>
 			</tr>
-			<!-- 
+			 
 			<tr>
 				<th><a href="#environment-variables">Environ variable</a></th>
 				<td><code>NEW_RELIC_ERROR_COLLECTOR_IGNORE_ERROR_CODES</code></td>
 			</tr>
- --><!-- 
+  
 			<tr>
 				<th><a href="#server-side">Server-side label</a></th>
 				<td><code>Ignore these status codes</code></td>
 			</tr>
- -->
+ 
 		</tbody>
 	</table>
-	<!-- <p>Comma-delimited list of HTTP status codes for the error collector to ignore.</p> -->	<p>Comma-delimited list of HTTP status codes for the error collector to mark as expected.</p>	<div class="callout-caution">
+		<p>Comma-delimited list of HTTP status codes for the error collector to mark as expected.</p>	<div class="callout-caution">
 	<p>Errors recorded using <a href="/docs/agents/nodejs-agent/supported-features/nodejs-agent-api#noticeError">newrelic.noticeError</a> do not obey this configuration value.</p>
 	</div>
 	</dd>
@@ -795,24 +776,24 @@ certificates: [ fs.readFileSync('<var>myca</var>.crt', {encoding: '<var>utf8</va
 				<th><a href="#environment-variables">Environ variable</a></th>
 				<td><code>NEW_RELIC_ERROR_COLLECTOR_EXPECTED_ERRORS</code></td>
 			</tr>
-			<!-- 
+			 
 			<tr>
 				<th><a href="#environment-variables">Environ variable</a></th>
 				<td><code>NEW_RELIC_ERROR_COLLECTOR_IGNORE_ERROR_CODES</code></td>
 			</tr>
- --><!-- 
+  
 			<tr>
 				<th><a href="#server-side">Server-side label</a></th>
 				<td><code>Ignore these status codes</code></td>
 			</tr>
- -->
+ 
 		</tbody>
 	</table>
-	<!-- <p>Comma-delimited list of HTTP status codes for the error collector to ignore.</p> -->	<p>The following configuration</p>	<pre>
+		<p>The following configuration</p>	<pre>
     /* ... */
-    error_collector: {
+    error_collector: 
         expected_classes: ["ReferenceError"]
-    }    
+        
     /* ... */
 </pre>	<p>Would mark all reference errors as expected.</p>	<p></p>	<div class="callout-caution">
 	<p>Errors recorded using <a href="/docs/agents/nodejs-agent/supported-features/nodejs-agent-api#noticeError">newrelic.noticeError</a> do not obey this configuration value.</p>
@@ -828,28 +809,28 @@ certificates: [ fs.readFileSync('<var>myca</var>.crt', {encoding: '<var>utf8</va
 			</tr>
 			<tr>
 				<th>Default</th>
-				<td><code>{}</code></td>
+				<td><code></code></td>
 			</tr>
-			<!-- 
+			 
 			<tr>
 				<th><a href="#environment-variables">Environ variable</a></th>
 				<td><code>NEW_RELIC_ERROR_COLLECTOR_IGNORE_ERROR_CODES</code></td>
 			</tr>
- --><!-- 
+  
 			<tr>
 				<th><a href="#server-side">Server-side label</a></th>
 				<td><code>Ignore these status codes</code></td>
 			</tr>
- -->
+ 
 		</tbody>
 	</table>
-	<!-- <p>Comma-delimited list of HTTP status codes for the error collector to ignore.</p> -->	<p>A javascript object describing a list of javascript classes tied to javascript error messages for the collector to ignore. The following configuration.</p>	<pre>
+		<p>A javascript object describing a list of javascript classes tied to javascript error messages for the collector to ignore. The following configuration.</p>	<pre>
     /* ... */
-    error_collector: {
+    error_collector: 
         /* ... */
-        expected_messages: {"Error":["Undefined"],"Error":["Out of time"]}
+        expected_messages: "Error":["Undefined"],"Error":["Out of time"]
         /* ... */
-    }    
+        
     /* ... */
 </pre>	<p>Would mark all errors of type Error with the exact (case-sensative) message strings of "Undefined" and "Out of time" as expected.</p>	<div class="callout-caution">
 	<p>Errors recorded using <a href="/docs/agents/nodejs-agent/supported-features/nodejs-agent-api#noticeError">newrelic.noticeError</a> do not obey this configuration value.</p>
@@ -919,7 +900,7 @@ certificates: [ fs.readFileSync('<var>myca</var>.crt', {encoding: '<var>utf8</va
 	<li>Identify slow requests.</li>
 	<li>Group metrics.</li>
 	<li>Isolate other issues, such as slow <a href="/docs/apm/applications-menu/monitoring/databases-slow-queries-dashboard">database performance</a>.</li>
-</ul><p>This section defines the Node.js agent variables in the order they typically appear in the <code>transaction_tracer: {</code> section of your app's <code>newrelic.js</code> configuration file.</p><div class="callout-important">
+</ul><p>This section defines the Node.js agent variables in the order they typically appear in the <code>transaction_tracer: </code> section of your app's <code>newrelic.js</code> configuration file.</p><div class="callout-important">
 <p>Do not use brackets <code>[<var>suffix</var>]</code> at the end of your transaction name. New Relic automatically strips brackets from the name. Instead, use parentheses <code>(<var>suffix</var>)</code> or other symbols if needed.</p>
 </div><dl class="clamshell-list">
 	<dt id="tracer_enabled">enabled</dt>
@@ -1107,7 +1088,7 @@ certificates: [ fs.readFileSync('<var>myca</var>.crt', {encoding: '<var>utf8</va
 		</tbody>
 	</table>	<p>Prefix of attributes to include in transaction traces. Allows <code>*</code> as wildcard at end.</p>
 	</dd>
-</dl><h2 id="rules_config">Rules variables</h2><p>This section defines the Node.js agent variables in the order they typically appear in the <code>rules: {</code> section of your app's <code>newrelic.js</code> configuration file.</p><dl class="clamshell-list">
+</dl><h2 id="rules_config">Rules variables</h2><p>This section defines the Node.js agent variables in the order they typically appear in the <code>rules: </code> section of your app's <code>newrelic.js</code> configuration file.</p><dl class="clamshell-list">
 	<dt id="rules_names">name</dt>
 	<dd>
 	<table class="specs">
@@ -1127,9 +1108,9 @@ certificates: [ fs.readFileSync('<var>myca</var>.crt', {encoding: '<var>utf8</va
 		</tbody>
 	</table>	<p>A comma-delimited list of rules to match incoming request URLs and name the associated New Relic transaction. Uses the format:</p>	<pre>
 	name: [
-	{pattern: '<var>STRING_OR_REGEX</var>', name: '<var>NAME</var>'},	{pattern: '<var>STRING_OR_REGEX</var>', name: '<var>NAME</var>'}	],
+	pattern: '<var>STRING_OR_REGEX</var>', name: '<var>NAME</var>',	pattern: '<var>STRING_OR_REGEX</var>', name: '<var>NAME</var>'	],
 </pre>	<p>Both parameters are required. For strings, you must escape control characters. You do not need to escape control characters in regular expressions. Additional attributes are ignored.</p>	<p>Regular expressions support JavaScript-style capture groups, and names use <code>$1</code>-style replacement strings. Regular expressions only find the first matching result; subsequent matches are ignored. For more information, see <a href="/docs/agents/nodejs-agent/api-guides/nodejs-agent-api#ignoring">Node.js transaction naming API</a>.</p>	<p>For the <code>NEW_RELIC_NAMING_RULES</code> environment variable, pass the rules as comma-delimited JSON object literals:</p>	<pre>
-NEW_RELIC_NAMING_RULES='{"pattern":"<var>^t</var>","name":"<var>u</var>"},{"pattern":"<var>^u</var>","name":"<var>t</var>"}'</pre>
+NEW_RELIC_NAMING_RULES='"pattern":"<var>^t</var>","name":"<var>u</var>","pattern":"<var>^u</var>","name":"<var>t</var>"'</pre>
 	</dd>
 	<dt id="rules_ignore">ignore</dt>
 	<dd>
@@ -1173,7 +1154,7 @@ NEW_RELIC_NAMING_RULES='{"pattern":"<var>^t</var>","name":"<var>u</var>"},{"patt
 	<p>Do not change this setting unless you understand <a href="/docs/features/metric-grouping-issues">metric grouping issues</a>.</p>
 	</div>	<p>When enabled, the agent renames transactions that are not affected by other naming logic (such as the API, rules, or metric normalization rules) to <code><var>NormalizedUri</var>/*</code>. If you set this to <code>false</code>, the agent sets transaction names to <code><var>Uri/path/to/resource</var></code>.</p>
 	</dd>
-</dl><h2 id="tx_events">Transaction events variables</h2><p>This section defines the Node.js agent variables in the order they typically appear in the <code>transaction_events: {</code> section of your app's <code>newrelic.js</code> configuration file.</p><dl class="clamshell-list">
+</dl><h2 id="tx_events">Transaction events variables</h2><p>This section defines the Node.js agent variables in the order they typically appear in the <code>transaction_events: </code> section of your app's <code>newrelic.js</code> configuration file.</p><dl class="clamshell-list">
 	<dt id="tx_events_enabled">enabled</dt>
 	<dd>
 	<table class="specs">
@@ -1299,7 +1280,7 @@ NEW_RELIC_NAMING_RULES='{"pattern":"<var>^t</var>","name":"<var>u</var>"},{"patt
 		</tbody>
 	</table>	<p>Prefix of attributes to include in transaction events. Allows <code>*</code> as wildcard at end.</p>
 	</dd>
-</dl><h2 id="browser-variables">Browser monitoring variables</h2><p>This section defines the Node.js agent variables in the order they typically appear in the <code>browser_monitoring: {</code> section of your app's <code>newrelic.js</code> configuration file.</p><dl class="clamshell-list">
+</dl><h2 id="browser-variables">Browser monitoring variables</h2><p>This section defines the Node.js agent variables in the order they typically appear in the <code>browser_monitoring: </code> section of your app's <code>newrelic.js</code> configuration file.</p><dl class="clamshell-list">
 	<dt id="browser">enable</dt>
 	<dd>
 	<table class="specs">
@@ -1401,7 +1382,7 @@ NEW_RELIC_NAMING_RULES='{"pattern":"<var>^t</var>","name":"<var>u</var>"},{"patt
 		</tbody>
 	</table>	<p>Prefix of attributes to include in Browser monitoring. Allows <code>*</code> as wildcard at end.</p>
 	</dd>
-</dl><h2 id="custom_events">Custom Insights events variables</h2><p>This section defines the Node.js agent variables in the order they typically appear in the <code>custom_insights_events: {</code> section of your app's <code>newrelic.js</code> configuration file. Currently there are no environment variables for custom Insights events.</p><dl class="clamshell-list">
+</dl><h2 id="custom_events">Custom Insights events variables</h2><p>This section defines the Node.js agent variables in the order they typically appear in the <code>custom_insights_events: </code> section of your app's <code>newrelic.js</code> configuration file. Currently there are no environment variables for custom Insights events.</p><dl class="clamshell-list">
 	<dt id="custom_events_enabled">enabled</dt>
 	<dd>
 	<table class="specs">
@@ -1434,7 +1415,7 @@ NEW_RELIC_NAMING_RULES='{"pattern":"<var>^t</var>","name":"<var>u</var>"},{"patt
 	<p>Increasing this limit increases memory usage.</p>
 	</div>
 	</dd>
-</dl><h2 id="slow-queries">Slow queries variables</h2><p>This section defines the Node.js agent variables in the order they typically appear in the <code>slow_sql: {</code> section of your app's <code>newrelic.js</code> configuration file. These options control behavior for slow queries, but do not affect SQL nodes in transaction traces.</p><dl class="clamshell-list">
+</dl><h2 id="slow-queries">Slow queries variables</h2><p>This section defines the Node.js agent variables in the order they typically appear in the <code>slow_sql: </code> section of your app's <code>newrelic.js</code> configuration file. These options control behavior for slow queries, but do not affect SQL nodes in transaction traces.</p><dl class="clamshell-list">
 	<dt id="slow-sql-enabled">enabled</dt>
 	<dd>
 	<table class="specs">
@@ -1475,7 +1456,7 @@ NEW_RELIC_NAMING_RULES='{"pattern":"<var>^t</var>","name":"<var>u</var>"},{"patt
 	<p>Increasing this limit increases memory usage.</p>
 	</div>
 	</dd>
-</dl><h2 id="custom-hostnames">Custom hostname variables</h2><p>This section defines the Node.js agent variables in the order they typically appear in the <code>process_host: {</code> section of your app's <code>newrelic.js</code> configuration file. These options control behavior regarding the host display name in the New Relic APM UI.</p><dl class="clamshell-list">
+</dl><h2 id="custom-hostnames">Custom hostname variables</h2><p>This section defines the Node.js agent variables in the order they typically appear in the <code>process_host: </code> section of your app's <code>newrelic.js</code> configuration file. These options control behavior regarding the host display name in the New Relic APM UI.</p><dl class="clamshell-list">
 	<dt id="custom-hostnames-display">display_name</dt>
 	<dd>
 	<table class="specs">
@@ -1622,7 +1603,7 @@ NEW_RELIC_NAMING_RULES='{"pattern":"<var>^t</var>","name":"<var>u</var>"},{"patt
 	</dd>
 </dl><h2 id="distributed-tracing">Distributed tracing</h2><div class="callout-important">
 <p>Enabling distributed tracing disables <a href="#cross-app-tracing">cross application tracing</a>, and has effects on other New Relic APM features. Before enabling, read the <a href="/docs/transition-guide-distributed-tracing">transition guide</a>.</p><p>Requires <a href="/docs/agents/nodejs-agent/installation-configuration/upgrade-nodejs-agent">Node.js agent version 4.7.0 or higher</a>.</p>
-</div><p><a href="/docs/intro-distributed-tracing">Distributed tracing</a> lets you see the path that a request takes as it travels through a distributed system. When configuring via the config file, place the following option in the <code>distributed_tracing</code> section.</p><p>When distributed tracing is enabled, you can collect <a href="/docs/apm/distributed-tracing/ui-data/span-event">span events</a>.</p><dl class="clamshell-list"><!-- ********** enabled ********** -->
+</div><p><a href="/docs/intro-distributed-tracing">Distributed tracing</a> lets you see the path that a request takes as it travels through a distributed system. When configuring via the config file, place the following option in the <code>distributed_tracing</code> section.</p><p>When distributed tracing is enabled, you can collect <a href="/docs/apm/distributed-tracing/ui-data/span-event">span events</a>.</p><dl class="clamshell-list">
 	<dt id="dt-enabled">enabled</dt>
 	<dd>
 	<table class="specs">
@@ -1641,9 +1622,9 @@ NEW_RELIC_NAMING_RULES='{"pattern":"<var>^t</var>","name":"<var>u</var>"},{"patt
 			</tr>
 		</tbody>
 	</table>	<p>Set this to <code>true</code> to enable distributed tracing.</p>	<p>For example, to enable this in the config file, you would use:</p>	<pre>
-distributed_tracing: {
+distributed_tracing: 
    enabled: true
-}</pre>
+</pre>
 	</dd>
 	<dt id="dt-exclude-newrelic-header">exclude_newrelic_header</dt>
 	<dd>
@@ -1659,10 +1640,10 @@ distributed_tracing: {
 			</tr>
 		</tbody>
 	</table>	<p>Set this to <code>true</code> to exclude the New Relic header that is attached to outbound requests, and instead only rely on W3C Trace Context Headers for distributed tracing. If this is <code>false</code> then both types of headers are used.</p>	<p>For example, to enable this in the config file, you would use:</p>	<pre>
-distributed_tracing:{
+distributed_tracing:
    enabled: true,
    exclude_newrelic_header: true
-}</pre>
+</pre>
 	</dd>
 </dl><h2 id="span-events">Span events</h2><p><a href="/docs/apm/distributed-tracing/ui-data/span-event">Span events</a> are reported for <a href="#distributed-tracing">distributed tracing</a>. Distributed tracing must be enabled to report span events. Span configuration is set in the <code>span_events</code> stanza. Options include:</p><dl class="clamshell-list">
 	<dt id="span-events-enabled">enabled</dt>
@@ -1703,7 +1684,7 @@ distributed_tracing:{
 		</tbody>
 	</table>	<p>This setting can be used to turn reporting of attributes on or off for span events. If <code>attributes.enabled</code> at the root level is <code>false</code>, no attributes will be sent to span events regardless on how this is set.</p>
 	</dd>
-	<!-- ********** span_events.attributes.include ********** -->
+	
 	<dt id="span-events-attributes-include">attributes.include</dt>
 	<dd>
 	<table class="specs">
@@ -1723,7 +1704,7 @@ distributed_tracing:{
 		</tbody>
 	</table>	<p>If attributes are enabled for span events, all attribute keys found in this list will be attached to span events. For more information, see the <a href="/docs/apm/other-features/attributes/agent-attributes">agent attribute rules</a>.</p>
 	</dd>
-	<!-- ********** span_events.attributes.exclude ********** -->
+	
 	<dt id="span-events-attributes-exclude">attributes.exclude</dt>
 	<dd>
 	<table class="specs">
@@ -1743,4 +1724,4 @@ distributed_tracing:{
 		</tbody>
 	</table>	<p>All attribute keys found in this list will not be sent with span events. For more information, see the <a href="/docs/apm/other-features/attributes/agent-attributes">agent attribute rules</a>.</p>
 	</dd>
-</dl><h2 id="more_help">For more help</h2>
+</dl>

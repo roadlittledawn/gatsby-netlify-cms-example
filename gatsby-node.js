@@ -3,8 +3,8 @@ const { createFilePath } = require(`gatsby-source-filesystem`)
 const AUTOBUILD_INDEXES = true;
 
 exports.onCreateNode = ({ node, getNode, actions }) => {
-  const { createNodeField } = actions
-  if (node.internal.type === 'MarkdownRemark') {
+  const { createNodeField } = actions;
+  if (node.internal.type === 'Mdx') {
     let slug = node.frontmatter.path || createFilePath({ node, getNode, trailingSlash: false })
     createNodeField({
       node,
@@ -21,7 +21,7 @@ exports.createPages = async ({ actions, graphql, reporter }) => {
   let subdirIndexPages = {};
   const result = await graphql(`
   {
-    allMarkdownRemark {
+    allMdx {
       edges {
         node {
           frontmatter {
@@ -70,13 +70,12 @@ exports.createPages = async ({ actions, graphql, reporter }) => {
     target.push(child);
   }
 
-  result.data.allMarkdownRemark.edges.forEach(({ node }) => {
-    console.log(node.fields.urlPath)
+  result.data.allMdx.edges.forEach(({ node }) => {
     const relativePath = node.parent.relativePath.split('.')
     // Get dir of file
     const subdirAbs = path.dirname(node.fileAbsolutePath);
     // Note that this md file is child of dir
-    recordAsChild(subdirAbs,node,false);
+    recordAsChild(subdirAbs, node, false);
     createPage({
       path: node.fields.urlPath,
       component: path.resolve(
@@ -96,17 +95,17 @@ exports.createPages = async ({ actions, graphql, reporter }) => {
       // Note child of dir
       recordAsChild(parentDir,node,true);
       // Create page for subdir that file is in, if it is missing an index page. Skip for homepage ('/'), or top level page (/test.md)
-      const alreadyHasIndexPage = (subdirsWithIndexPages.indexOf(subdirAbs)!==-1 || subdirRel === '');
+      const alreadyHasIndexPage = (subdirsWithIndexPages.indexOf(subdirAbs) !==-1 || subdirRel === '');
       if (!alreadyHasIndexPage){
         // Check for index.md
-        const indexPath = path.posix.join(subdirAbs,'index.md');
+        const indexPath = path.posix.join(subdirAbs, 'index.mdx');
         const existResult = await graphql(`
         {
-          allMarkdownRemark(filter: {fileAbsolutePath: {eq: "${indexPath}"}}) {
+          allMdx(filter: {fileAbsolutePath: {eq: "${indexPath}"}}) {
             totalCount
           }
         }`);
-        if (existResult.data.allMarkdownRemark.totalCount < 1) {
+        if (existResult.data.allMdx.totalCount < 1) {
           console.log(`There is no index for ${indexPath}`);
           subdirIndexesToCreate.push({
             subdirAbs: subdirAbs,
