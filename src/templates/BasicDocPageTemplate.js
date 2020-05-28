@@ -4,12 +4,14 @@ import PropTypes from 'prop-types';
 import Layout from '../components/Layout';
 import BreadcrumbBar from '../components/BreadcrumbBar';
 import Container from '../components/Container';
+import { MDXRenderer } from 'gatsby-plugin-mdx';
+import { MDXProvider } from '@mdx-js/react';
 
 export default function BasicDocPageTemplate({
   data, // this prop will be injected by the GraphQL query below.
 }) {
-  const { markdownRemark } = data; // data.markdownRemark holds your post data
-  const { frontmatter, html } = markdownRemark;
+  const { mdx } = data; // data.mdx holds your post data
+  const { frontmatter, body } = mdx;
 
   // TODO use graphql to fetch these
   const crumbs = [
@@ -24,10 +26,11 @@ export default function BasicDocPageTemplate({
         <div className="basicDocPageTemplate-container">
           <div>
             <h1>{frontmatter.title}</h1>
-            <div
-              className="basicDocPageTemplate-content"
-              dangerouslySetInnerHTML={{ __html: html }}
-            />
+            <div className="guideTemplate-content">
+              <MDXProvider>
+                <MDXRenderer>{body}</MDXRenderer>
+              </MDXProvider>
+            </div>
           </div>
         </div>
       </Container>
@@ -36,8 +39,8 @@ export default function BasicDocPageTemplate({
 }
 export const pageQuery = graphql`
   query($path: String!) {
-    markdownRemark(fields: {urlPath: {eq: $path}}) {
-      html
+    mdx(fields: {urlPath: {eq: $path}}) {
+      body
       frontmatter {
         path
         title

@@ -4,7 +4,7 @@ const AUTOBUILD_INDEXES = true;
 
 exports.onCreateNode = ({ node, getNode, actions }) => {
   const { createNodeField } = actions
-  if (node.internal.type === 'MarkdownRemark') {
+  if (node.internal.type === 'Mdx') {
     let slug = node.frontmatter.path || createFilePath({ node, getNode, trailingSlash: false })
     createNodeField({
       node,
@@ -21,7 +21,7 @@ exports.createPages = async ({ actions, graphql, reporter }) => {
   let subdirIndexPages = {};
   const result = await graphql(`
   {
-    allMarkdownRemark {
+    allMdx {
       edges {
         node {
           frontmatter {
@@ -70,7 +70,7 @@ exports.createPages = async ({ actions, graphql, reporter }) => {
     target.push(child);
   }
 
-  result.data.allMarkdownRemark.edges.forEach(({ node }) => {
+  result.data.allMdx.edges.forEach(({ node }) => {
     console.log(node.fields.urlPath)
     const relativePath = node.parent.relativePath.split('.')
     // Get dir of file
@@ -102,11 +102,11 @@ exports.createPages = async ({ actions, graphql, reporter }) => {
         const indexPath = path.posix.join(subdirAbs,'index.md');
         const existResult = await graphql(`
         {
-          allMarkdownRemark(filter: {fileAbsolutePath: {eq: "${indexPath}"}}) {
+          allMdx(filter: {fileAbsolutePath: {eq: "${indexPath}"}}) {
             totalCount
           }
         }`);
-        if (existResult.data.allMarkdownRemark.totalCount < 1) {
+        if (existResult.data.allMdx.totalCount < 1) {
           console.log(`There is no index for ${indexPath}`);
           subdirIndexesToCreate.push({
             subdirAbs: subdirAbs,
