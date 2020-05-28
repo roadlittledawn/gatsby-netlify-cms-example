@@ -6,6 +6,7 @@ module.exports = {
   },
   plugins: [
     `gatsby-plugin-react-helmet`,
+    `gatsby-plugin-mdx`,
     {
       resolve: `gatsby-source-filesystem`,
       options: {
@@ -42,7 +43,7 @@ module.exports = {
         siteUrl: 'http://localhost.com:8000',
         graphQLQuery: `
         {
-          allMarkdownRemark {
+          allMdx {
             edges {
               node {
                 frontmatter {
@@ -58,12 +59,12 @@ module.exports = {
           }
         }
       `,
-      serialize: results => results.data.allMarkdownRemark.edges.map(({ node }) => ({
+      serialize: results => results.data.allMdx.edges.map(({ node }) => ({
         path: node.fields.urlPath, // MUST contain a path
         title: node.frontmatter.title,
         html: node.html,
       })),
-      serializeFeed: results => results.data.allMarkdownRemark.edges.map(({ node }) => ({
+      serializeFeed: results => results.data.allMdx.edges.map(({ node }) => ({
         id: node.fields.urlPath,
         url: `http://localhost:8000${node.fields.urlPath}/index.json`,
         title: node.frontmatter.title,
@@ -78,7 +79,7 @@ module.exports = {
         siteUrl: 'http://localhost.com:8000',
         graphQLQuery: `
         {
-          allMarkdownRemark(filter: {frontmatter: {contentType: {eq: "attributeDefinition"}}}) {
+          allMdx(filter: {frontmatter: {contentType: {eq: "attributeDefinition"}}}) {
             edges {
               node {
                 frontmatter {
@@ -98,12 +99,12 @@ module.exports = {
           }
         }
       `,
-      serialize: results => results.data.allMarkdownRemark.edges.map(({ node }) => ({
+      serialize: results => results.data.allMdx.edges.map(({ node }) => ({
         path: node.fields.urlPath, // MUST contain a path
         title: node.frontmatter.title,
         html: node.html,
       })),
-      serializeFeed: results => results.data.allMarkdownRemark.edges.map(({ node }) => ({
+      serializeFeed: results => results.data.allMdx.edges.map(({ node }) => ({
         id: node.fields.urlPath,
         url: `http://localhost:8000${node.fields.urlPath}/index.json`,
         title: node.frontmatter.title,
