@@ -47,10 +47,10 @@ export default function BasicDocPageTemplate({
 }
 export const pageQuery = graphql`
   query($path: String!) {
-    mdx(fields: {urlPath: {eq: $path}}) {
+    mdx(fields: {slug: {eq: $path}}) {
       body
       frontmatter {
-        path
+        slug
         title
         topics
       }

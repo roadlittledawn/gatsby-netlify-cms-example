@@ -48,11 +48,11 @@ module.exports = {
               node {
                 frontmatter {
                   title
-                  path
+                  slug
                 }
                 html
                 fields {
-                  urlPath
+                  slug
                 }
               }
             }
@@ -60,13 +60,13 @@ module.exports = {
         }
       `,
       serialize: results => results.data.allMdx.edges.map(({ node }) => ({
-        path: node.fields.urlPath, // MUST contain a path
+        path: node.fields.slug, // MUST contain a path
         title: node.frontmatter.title,
         html: node.html,
       })),
       serializeFeed: results => results.data.allMdx.edges.map(({ node }) => ({
-        id: node.fields.urlPath,
-        url: `http://localhost:8000${node.fields.urlPath}/index.json`,
+        id: node.fields.slug,
+        url: `http://localhost:8000${node.fields.slug}/index.json`,
         title: node.frontmatter.title,
       })),
       nodesPerFeedFile: 100,
@@ -84,7 +84,7 @@ module.exports = {
               node {
                 frontmatter {
                   title
-                  path
+                  slug
                   dataSources
                   dataTypes
                   shortDescription
@@ -92,7 +92,7 @@ module.exports = {
                 }
                 html
                 fields {
-                  urlPath
+                  slug
                 }
               }
             }
@@ -100,13 +100,13 @@ module.exports = {
         }
       `,
       serialize: results => results.data.allMdx.edges.map(({ node }) => ({
-        path: node.fields.urlPath, // MUST contain a path
+        path: node.fields.slug, // MUST contain a path
         title: node.frontmatter.title,
         html: node.html,
       })),
       serializeFeed: results => results.data.allMdx.edges.map(({ node }) => ({
-        id: node.fields.urlPath,
-        url: `http://localhost:8000${node.fields.urlPath}/index.json`,
+        id: node.fields.slug,
+        url: `http://localhost:8000${node.fields.slug}/index.json`,
         title: node.frontmatter.title,
         dataSources: node.frontmatter.dataSources,
         dataTypes: node.frontmatter.dataTypes,
@@ -147,5 +147,12 @@ module.exports = {
     {
       resolve: 'gatsby-plugin-netlify-cms',
     },
+    {
+      resolve: '@thundersquared/gatsby-redirect-from',
+      options: {
+        query: 'allMdx'
+      }
+    },
+    'gatsby-plugin-meta-redirect'
   ],
 };

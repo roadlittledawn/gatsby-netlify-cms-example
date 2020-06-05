@@ -5,10 +5,10 @@ const AUTOBUILD_INDEXES = true;
 exports.onCreateNode = ({ node, getNode, actions }) => {
   const { createNodeField } = actions;
   if (node.internal.type === 'Mdx') {
-    let slug = node.frontmatter.path || createFilePath({ node, getNode, trailingSlash: false })
+    let slug = node.frontmatter.slug || createFilePath({ node, getNode, trailingSlash: false })
     createNodeField({
       node,
-      name: 'urlPath',
+      name: 'slug',
       value: slug,
     })
   }
@@ -28,7 +28,7 @@ exports.createPages = async ({ actions, graphql, reporter }) => {
             title
             topics
             templateKey
-            path
+            slug
             contentType
           }
           parent {
@@ -38,7 +38,7 @@ exports.createPages = async ({ actions, graphql, reporter }) => {
           }
           fileAbsolutePath
           fields {
-            urlPath
+            slug
           }
         }
       }
@@ -77,12 +77,12 @@ exports.createPages = async ({ actions, graphql, reporter }) => {
     // Note that this md file is child of dir
     recordAsChild(subdirAbs, node, false);
     createPage({
-      path: node.fields.urlPath,
+      path: node.fields.slug,
       component: path.resolve(
         `src/templates/${node.frontmatter.templateKey}.js`
       ),
       context: {
-        urlPath: node.frontmatter.path || `/${relativePath[0]}`
+        slug: node.fields.slug || `/${relativePath[0]}`
       }, // additional data can be passed via context
     });
   });

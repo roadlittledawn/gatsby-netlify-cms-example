@@ -15,11 +15,9 @@ npm start
 Your site is now running at `http://localhost:8000`!
 
 # TODO
-* Add sitewide nav menu
-* Add automatic directory index pages for each directory
-  * Change index.md template to use its own template
+* Change index.mdx template to use its own template
+  * Eventually figure out how to add dynamic content to page like links to related docs, etc)
 * Add redirects
-* Add JSON feed for directories (proof of concept for feeding top level folder names to search app)
 * Use frontmatter to set `<meta>` and other related tags (swiftype, SEO, hreflang links)
 * Add field validation for certain graphql/frontmatter types
   * `path`: ensure unique. decide if user should supply or automatically generated based on directory? use default gatsby pattern (slugified directory and filename path) if not specified
@@ -29,3 +27,4 @@ Your site is now running at `http://localhost:8000`!
 * I'm inclined to not make API doc its own content type, because many fields are HTML fields and it won't really work with frontmatter syntax.
 * Site nav: Dynamically navigate through all directories OR links off to landing pages?
 * Decision: How much of frontmatter is optional / required? What are defaults if any?
+* JSON: To meet our needs to output different content types to JSON, we really need to be able to add feed names in order to create multiple feeds with different structures. I forked plugin repo, made those changes, and [submitted PR](https://github.com/dominicfallows/gatsby-plugin-json-output/pull/10).
