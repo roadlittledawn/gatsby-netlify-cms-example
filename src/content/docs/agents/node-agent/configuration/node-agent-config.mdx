@@ -1,6 +1,6 @@
 ---
 title: Node agent configuration
-path: /agents/node-js/config/node-agent-configuration
+slug: /agents/node-js/config/node-agent-configuration
 contentType: basicDoc
 templateKey: BasicDocPageTemplate
 topics:
@@ -12,7 +12,14 @@ moreInfoLinks:
   text: "No data appears (PHP)"
 metaDescription: "For configuration of New Relic's node.js agent for linux read this."
 ---
-<p>You can tailor New Relic's Node.js agent to your app's requirements by editing your <code>newrelic.js</code> config file or by setting an environment variable. The config file resides in the root directory of your app. You can also configure a few options from the New Relic UI, or use New Relic's <a href="/docs/agents/nodejs-agent/api-guides/nodejs-agent-api">Node.js agent API</a>.</p><div class="callout-important">
+markdown para with this object: &lbrace;key:value&rbrace;
+here is markdown pre block
+    
+    exports.config = {key:value}
+    
+And here is an inline `{key:value}` object.
+
+<p>&#123;key:value&#125;You can tailor New Relic's Node.js agent to your app's requirements by editing your <code>newrelic.js</code> config file or by setting an environment variable. The config file resides in the root directory of your app. You can also configure a few options from the New Relic UI, or use New Relic's <a href="/docs/agents/nodejs-agent/api-guides/nodejs-agent-api">Node.js agent API</a>.</p><div class="callout-important">
 <p>The <a href="#license"><code>license_key</code></a> setting is required. New Relic <b>highly recommends</b> setting the <a href="#app_name"><code>app_name</code></a> so that your app has a <a href="/docs/apm/new-relic-apm/installation-configuration/name-your-application">meaningful name</a> instead of the default <code>My Application</code>.</p>
 </div><h2 id="methods-and-precedence">Configuration methods and precedence</h2><p id="hierarchy">The primary method to configure the Node.js agent is the agent configuration file (<code>newrelic.js</code>). You can also configure most settings with <a href="#environment">environment variables</a>. You can also adjust some settings with <a href="#server-side">server-side configuration</a>.</p><p>The Node.js agent uses this order of precedence for configuration methods:</p><div class="dnd-atom-wrapper type-image context-inline_image" contenteditable="false">
 <div class="dnd-drop-wrapper"></div><div class="dnd-legend-wrapper" contenteditable="true">
@@ -33,7 +40,7 @@ metaDescription: "For configuration of New Relic's node.js agent for linux read 
 	<p><b>Owner or Admins</b></p>
 	</div>	<p id="ui_settings">Owners and Admins can view and configure a few settings <a href="/docs/agents/manage-apm-agents/configuration/server-side-agent-configuration">directly in the New Relic UI</a>. Where available, the UI labels for server-side config are listed in this document under individual config options as the <b>Server-side label</b>.</p>
 	</dd>
-</dl><h2 id="exports_config">Exports variables</h2><p>This section defines the Node.js agent variables in the order they typically appear in the <code>exports.config = </code> section of your app's <code>newrelic.js</code> configuration file.</p><dl class="clamshell-list">
+</dl><h2 id="exports_config">Exports variables</h2><p>This section defines the Node.js agent variables in the order they typically appear in the <code>exports.config = &#123;</code> section of your app's <code>newrelic.js</code> configuration file.</p><dl class="clamshell-list">
 	<dt id="app_name">app_name <span style="color: red">(HIGHLY RECOMMENDED)</span></dt>
 	<dd>
 	<table class="specs">

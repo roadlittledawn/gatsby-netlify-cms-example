@@ -14,7 +14,7 @@ export default (props) => {
     isDir: true
   }}));
   listings = listings.concat(children.md.map(function(m){return {
-    path: m.fields.urlPath,
+    path: m.fields.slug,
     display: m.frontmatter.title,
     isDir: false
   }}));
