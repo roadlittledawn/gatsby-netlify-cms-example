@@ -145,9 +145,6 @@ module.exports = {
       }
     },
     {
-      resolve: 'gatsby-plugin-netlify-cms',
-    },
-    {
       resolve: '@thundersquared/gatsby-redirect-from',
       options: {
         query: 'allMdx'
