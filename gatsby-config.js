@@ -6,6 +6,7 @@ module.exports = {
   },
   plugins: [
     `gatsby-plugin-react-helmet`,
+    `gatsby-plugin-netlify`,
     `gatsby-plugin-mdx`,
     {
       resolve: `gatsby-source-filesystem`,
@@ -143,9 +144,6 @@ module.exports = {
       nodesPerFeedFile: 100,
       feedName: 'docs-folders'
       }
-    },
-    {
-      resolve: 'gatsby-plugin-netlify-cms',
     },
     {
       resolve: '@thundersquared/gatsby-redirect-from',
