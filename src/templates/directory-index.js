@@ -2,6 +2,7 @@ import React from "react"
 import { Link, graphql } from "gatsby"
 import Layout from "../components/Layout"
 import SEO from "../components/Seo"
+import { FaFileAlt, FaFolder } from "react-icons/fa";
 
 export default (props) => {
   const displayName = props.pageContext.slug;
@@ -24,13 +25,14 @@ export default (props) => {
       <h1>Generated Index Page - {`${displayName}`}</h1>
       <div className="directoryListingWrapper">
         <div className="directoryListingRow">
-          <i className="material-icons">folder</i>
+          <FaFolder />
           <Link to={`${props.uri + '/../'}`}>..</Link>
         </div>
         {listings.map((listing)=>{
           return (
             <div className="directoryListingRow" key={`${listing.path + ((new Date()).getTime())}`}>
-              <i className="material-icons">{listing.isDir ? 'folder' : 'description'}</i>
+              {listing.isDir ? <FaFolder /> : <FaFileAlt />}
+              {'  '}
               <Link to={`${listing.path}`}>
                 {listing.display}
               </Link>
