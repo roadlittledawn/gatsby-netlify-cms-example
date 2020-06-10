@@ -39,7 +39,7 @@ module.exports = {
     },
     `gatsby-transformer-remark`,
     {
-      resolve: `gatsby-plugin-json-output`,
+      resolve: `gatsby-plugin-json-output-multi-feed`,
       options: {
         siteUrl: 'http://localhost.com:8000',
         graphQLQuery: `
@@ -75,7 +75,7 @@ module.exports = {
       }
     },
     {
-      resolve: `gatsby-plugin-json-output`,
+      resolve: `gatsby-plugin-json-output-multi-feed`,
       options: {
         siteUrl: 'http://localhost.com:8000',
         graphQLQuery: `
@@ -120,7 +120,7 @@ module.exports = {
       }
     },
     {
-      resolve: `gatsby-plugin-json-output`,
+      resolve: `gatsby-plugin-json-output-multi-feed`,
       options: {
         siteUrl: 'http://localhost.com:8000',
         graphQLQuery: `
