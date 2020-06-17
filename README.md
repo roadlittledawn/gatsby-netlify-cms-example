@@ -15,13 +15,19 @@ npm start
 Your site is now running at `http://localhost:8000`!
 
 # TODO
-* Change index.mdx template to use its own template
-  * Eventually figure out how to add dynamic content to page like links to related docs, etc)
-* Add redirects
+
+## Must Do's
+Things we need to support out of the box for MVP:
+* Add XML sitemap
 * Use frontmatter to set `<meta>` and other related tags (swiftype, SEO, hreflang links)
+* Change index.mdx template to use its own template
+
+## Do later
+Things we can do later as future enhancement / not in scope for MVP:
+* Add / figure out how translation (smartling)
 * Add field validation for certain graphql/frontmatter types
   * `path`: ensure unique. decide if user should supply or automatically generated based on directory? use default gatsby pattern (slugified directory and filename path) if not specified
-* Add / figure out how translation (smartling)
+* Eventually figure out how to add dynamic content to directory index pages like links to related docs, etc)
 
 # Notes to self (or whomever is reading)
 * I'm inclined to not make API doc its own content type, because many fields are HTML fields and it won't really work with frontmatter syntax.
