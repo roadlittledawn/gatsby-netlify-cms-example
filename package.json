@@ -7,7 +7,7 @@
     "@mdx-js/react": "^1.6.4",
     "@thundersquared/gatsby-redirect-from": "^1.0.3",
     "classnames": "^2.2.6",
-    "gatsby": "^2.20.25",
+    "gatsby": "^2.32.13",
     "gatsby-image": "^2.3.4",
     "gatsby-plugin-json-output-multi-feed": "^1.1.4",
     "gatsby-plugin-manifest": "^2.3.5",
